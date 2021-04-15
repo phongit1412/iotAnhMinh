@@ -280,19 +280,87 @@ window.addEventListener('DOMContentLoaded', function () {
 })
 
 // Điều chỉnh Fan DaikinAC
-function selectFanDaikinAC() {
+function getvalueFanDaikin() {
     var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
-    var SelectFanDK = document.getElementById('selectFanDaikin');
-    var value =
-        SelectFanDK.options[SelectFanDK.selectedIndex].text;
-    firebaseRef.update({
-        "Fan": value
+    var green = "border-2 border-green-700 xl:p-2"
+    var red = "border-2 border-red-200 xl:p-2"
+    document.querySelector('#valuebtnFan1').addEventListener('click', () => {
+        var ele = document.getElementById('valuebtnFan1').value;
+        document.getElementById('imgFan1').setAttribute("class", green)
+        document.getElementById('imgFan2').setAttribute("class", red)
+        document.getElementById('imgFan3').setAttribute("class", red)
+        firebaseRef.update({
+            "Fan": ele
+        })
+        console.log(ele)
     })
-    console.log("The selected value=" + value);
+    document.querySelector('#valuebtnFan2').addEventListener('click', () => {
+        var ele = document.getElementById('valuebtnFan2').value;
+        document.getElementById('imgFan1').setAttribute("class", red)
+        document.getElementById('imgFan2').setAttribute("class", green)
+        document.getElementById('imgFan3').setAttribute("class", red)
+        firebaseRef.update({
+            "Fan": ele
+        })
+        console.log(ele)
+    })
+    document.querySelector('#valuebtnFan3').addEventListener('click', () => {
+        var ele = document.getElementById('valuebtnFan3').value;
+        document.getElementById('imgFan1').setAttribute("class", red)
+        document.getElementById('imgFan2').setAttribute("class", red)
+        document.getElementById('imgFan3').setAttribute("class", green)
+        firebaseRef.update({
+            "Fan": ele
+        })
+        console.log(ele)
+    })
 }
 //Load
-window.addEventListener('load', function () {
-    selectFanDaikinAC()
+window.addEventListener('DOMContentLoaded', function () {
+    getvalueFanDaikin()
+})
+
+//LOAD Fan DaikinAC
+function loadfandaikinac() {
+    var green = "border-2 border-green-700 xl:p-2"
+    var red = "border-2 border-red-200 xl:p-2"
+    var opacity100 = "opacity-100 hover:opacity-100"
+    var opacity50 = "opacity-50 hover:opacity-100"
+    firebase.database().ref().limitToFirst(1).on('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    var fan = data.val().Fan;
+                    if (fan == "min" || fan == "MIN") {
+                        document.getElementById('valuebtnFan1').setAttribute("class", opacity100)
+                        document.getElementById('imgFan1').setAttribute("class", green)
+                        document.getElementById('valuebtnFan2').setAttribute("class", opacity50)
+                        document.getElementById('imgFan2').setAttribute("class", red)
+                        document.getElementById('valuebtnFan3').setAttribute("class", opacity50)
+                        document.getElementById('imgFan3').setAttribute("class", red)
+                    }
+                    if (fan == "med" || fan == "MED") {
+                        document.getElementById('valuebtnFan1').setAttribute("class", opacity50)
+                        document.getElementById('imgFan1').setAttribute("class", red)
+                        document.getElementById('valuebtnFan2').setAttribute("class", opacity100)
+                        document.getElementById('imgFan2').setAttribute("class", green)
+                        document.getElementById('valuebtnFan3').setAttribute("class", opacity50)
+                        document.getElementById('imgFan3').setAttribute("class", red)
+                    }
+                    if (fan == "max" || fan == "MAX") {
+                        document.getElementById('valuebtnFan1').setAttribute("class", opacity50)
+                        document.getElementById('imgFan1').setAttribute("class", red)
+                        document.getElementById('valuebtnFan2').setAttribute("class", opacity50)
+                        document.getElementById('imgFan2').setAttribute("class", red)
+                        document.getElementById('valuebtnFan3').setAttribute("class", opacity100)
+                        document.getElementById('imgFan3').setAttribute("class", green)
+                    }
+                }
+            )
+        })
+}
+window.addEventListener('DOMContentLoaded', function () {
+    loadfandaikinac()
 })
 
 
@@ -300,7 +368,7 @@ window.addEventListener('load', function () {
 function getvalueModeDaikin() {
     var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
     var green = "border-2 border-green-700 xl:p-2"
-    var red = "border-2 border-red-700 xl:p-2"
+    var red = "border-2 border-red-200 xl:p-2"
     document.querySelector('#valuebtnMode1').addEventListener('click', () => {
         var ele = document.getElementById('valuebtnMode1').value;
         document.getElementById('imgMode1').setAttribute("class", green)
@@ -362,68 +430,81 @@ function getvalueModeDaikin() {
         console.log(ele)
     })
 }
-//load
+//Load
 window.addEventListener('DOMContentLoaded', function () {
     getvalueModeDaikin()
 })
 
-// firebase.database().ref().limitToFirst(parseInt(1)).once('value',
-//         function (snapshot) {
-//             snapshot.forEach(
-//                 function (data) {
-//                     var auto = data.val().autoDaikinAC;
-//                     //console.log(led)
-//                     if (auto == 1) {
-//                         document.getElementById('toggleAutoDaikinAC').checked = true;                       
-//                     }
-//                     else {
-//                         document.getElementById('toggleAutoDaikinAC').checked = false;                      
-//                     }
-//                 }
-//             );
-//         });
-//LOAD mode daikinac
+
+//LOAD Mode DaikinAC
 function loadmodedaikinac() {
     var green = "border-2 border-green-700 xl:p-2"
-    var red = "border-2 border-red-700 xl:p-2"
+    var red = "border-2 border-red-200 xl:p-2"
+    var opacity100 = "opacity-100 hover:opacity-100"
+    var opacity50 = "opacity-50 hover:opacity-100"
     firebase.database().ref().limitToFirst(1).on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
                     var mode = data.val().Mode;
                     if (mode == "auto" || mode == "AUTO") {
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity100)
                         document.getElementById('imgMode1').setAttribute("class", green)
+                        document.getElementById('valuebtnMode2').setAttribute("class", opacity50)
                         document.getElementById('imgMode2').setAttribute("class", red)
+                        document.getElementById('valuebtnMode3').setAttribute("class", opacity50)
                         document.getElementById('imgMode3').setAttribute("class", red)
+                        document.getElementById('valuebtnMode4').setAttribute("class", opacity50)
                         document.getElementById('imgMode4').setAttribute("class", red)
+                        document.getElementById('valuebtnMode5').setAttribute("class", opacity50)
                         document.getElementById('imgMode5').setAttribute("class", red)
                     }
                     if (mode == "snow" || mode == "SNOW") {
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode1').setAttribute("class", red)
+                        document.getElementById('valuebtnMode2').setAttribute("class", opacity100)
                         document.getElementById('imgMode2').setAttribute("class", green)
+                        document.getElementById('valuebtnMode3').setAttribute("class", opacity50)
                         document.getElementById('imgMode3').setAttribute("class", red)
+                        document.getElementById('valuebtnMode4').setAttribute("class", opacity50)
                         document.getElementById('imgMode4').setAttribute("class", red)
+                        document.getElementById('valuebtnMode5').setAttribute("class", opacity50)
                         document.getElementById('imgMode5').setAttribute("class", red)
                     }
                     if (mode == "dry" || mode == "DRY") {
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode1').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode2').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity100)
                         document.getElementById('imgMode3').setAttribute("class", green)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode4').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode5').setAttribute("class", red)
                     }
                     if (mode == "fan" || mode == "FAN") {
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode1').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode2').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode3').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity100)
                         document.getElementById('imgMode4').setAttribute("class", green)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode5').setAttribute("class", red)
                     }
                     if (mode == "heat" || mode == "HEAT") {
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode1').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode2').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode3').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity50)
                         document.getElementById('imgMode4').setAttribute("class", red)
+                        document.getElementById('valuebtnMode1').setAttribute("class", opacity100)
                         document.getElementById('imgMode5').setAttribute("class", green)
                     }
                 }

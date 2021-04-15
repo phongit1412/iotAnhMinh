@@ -253,23 +253,17 @@
                                         <div class="flex flex-wrap">
                                             <div class="w-1/2 text-center">
                                                 <div>Fan</div>
-                                                <button class="border-2 border-gray-200 xl:p-2"><img
-                                                        src="../static/icon/fanlow.png" alt=""></img></button>
-                                                <button class="border-2 border-gray-200 xl:p-2"><img
-                                                        src="../static/icon/fanmed.png" alt=""></img></button>
-                                                <button class="border-2 border-gray-200 xl:p-2"><img
-                                                        src="../static/icon/fanmax.png" alt=""></img></button>
-                                                <select class="text-2xl mt-2" id="selectFanDaikin"
-                                                    onchange="selectFanDaikinAC()">
-                                                    <option value="">Max</option>
-                                                    <option value="">Med</option>
-                                                    <option value="">Min</option>
-                                                </select>
+                                                <button class="" value="min" id="valuebtnFan1" onclick="getvalueFanDaikin()"><img class="border-2 border-red-200 xl:p-2"
+                                                        src="../static/icon/fanlow.png" alt="" id="imgFan1"></img></button>
+                                                <button class="" value="med" id="valuebtnFan2" onclick="getvalueFanDaikin()"><img class="border-2 border-red-200 xl:p-2"
+                                                        src="../static/icon/fanmed.png" alt="" id="imgFan2"></img></button>
+                                                <button class="" value="max" id="valuebtnFan3" onclick="getvalueFanDaikin()"><img class="border-2 border-red-200 xl:p-2"
+                                                        src="../static/icon/fanmax.png" alt="" id="imgFan3"></img></button>                                                
                                             </div>
                                             <div class="w-1/2 text-center">
                                                 <div>Mode</div>
                                                 <div>
-                                                    <button class="border-green-700" value="auto" id="valuebtnMode1" onclick="getvalueModeDaikin()"><img class="border-2 border-red-200 xl:p-2"
+                                                    <button class="" value="auto" id="valuebtnMode1" onclick="getvalueModeDaikin()"><img class="border-2 border-red-200 xl:p-2"
                                                             src="../static/icon/auto.png" alt="" id="imgMode1"></img></button>
                                                     <button class="" value="snow" id="valuebtnMode2" onclick="getvalueModeDaikin()"><img class="border-2 border-red-200 xl:p-2"
                                                             src="../static/icon/snow.png" alt="" id="imgMode2"></img></button>
@@ -280,14 +274,6 @@
                                                     <button class="" value="heat" id="valuebtnMode5" onclick="getvalueModeDaikin()"><img class="border-2 border-red-200 xl:p-2"
                                                             src="../static/icon/heat.png" alt="" id="imgMode5"></button>
                                                 </div>
-                                                <!-- <select class="text-2xl mt-2" id="selectModeDaikin"
-                                                    onchange="selectModeDaikinAC()">
-                                                    <option value="">Auto</option>
-                                                    <option value="">Dry</option>
-                                                    <option value="">Cool</option>
-                                                    <option value="">Heat</option>
-                                                    <option value="">Fan</option>
-                                                </select> -->
                                             </div>
                                         </div>
                                     </div>
