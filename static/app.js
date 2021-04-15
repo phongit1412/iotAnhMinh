@@ -26,53 +26,103 @@ var todayFireBase = "PKThietBiDo" + "/" + today;
 
 // Nhiệt độ API
 function getWeather() {
-    let api = "https://api.openweathermap.org/data/2.5/weather";
-    let apiKey = "f146799a557e8ab658304c1b30cc3cfd";
+    // let api = "https://api.openweathermap.org/data/2.5/weather";
+    // let apiKey = "f146799a557e8ab658304c1b30cc3cfd";
+    // location.innerHTML = "Locating...";
+    // navigator.geolocation.getCurrentPosition(success, error);
+    // function success(position) {
+    //     latitude = 10.8201;
+    //     longitude = 106.6892;
+    //     // latitude = position.coords.latitude;
+    //     // longitude = position.coords.longitude;
 
-    location.innerHTML = "Locating...";
+    //     let url =
+    //         api +
+    //         "?lat=" +
+    //         latitude +
+    //         "&lon=" +
+    //         longitude +
+    //         "&appid=" +
+    //         apiKey +
+    //         "&units=imperial";
 
-    navigator.geolocation.getCurrentPosition(success, error);
+    //     fetch(url)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data);
+    //             let temp = data.main.temp;
+    //             var temperature = Number((temp - 32) / 1.8000).toFixed(2) + "°C";
+    //             // var location =
+    //             //     data.name + " (" + Number(latitude).toFixed(0) + "°, " + Number(longitude).toFixed(0) + "°)";
+    //             var location = data.name;
+    //             var description = data.weather[0].main;
+    //             var iconcode = data.weather[0].icon;
+    //             document.querySelector('#apiOpenWeather').innerHTML = `<table><tr>
+    //                                 <td>${temperature}<td>
+    //                                 <td><img src="http://openweathermap.org/img/w/${iconcode}.png"/></td>
+    //                                 <td>${description}</td>
+    //                                 </tr></table>
+    //                                 <p>${location}<p>`;
+    //         });
 
-    function success(position) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-
-        let url =
-            api +
-            "?lat=" +
-            latitude +
-            "&lon=" +
-            longitude +
-            "&appid=" +
-            apiKey +
-            "&units=imperial";
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                let temp = data.main.temp;
-                var temperature = Number((temp - 32) / 1.8000).toFixed(2) + "°C";
-                var location =
-                    data.name + " (" + Number(latitude).toFixed(1) + "°, " + Number(longitude).toFixed(1) + "°)";
-                var description = data.weather[0].main;
-                var iconcode = data.weather[0].icon;
-                document.querySelector('#apiOpenWeather').innerHTML = `<table><tr>
-                                    <td>${temperature}<td>
-                                    <td><img src="http://openweathermap.org/img/w/${iconcode}.png"/></td>
-                                    <td>${description}</td>
-                                    </tr></table>
-                                    <p>${location}<p>`;
-            });
-    }
+    // }
+    latitude = 10.8201;
+    longitude = 106.6892;
+    $.getJSON(
+        "https://api.openweathermap.org/data/2.5/weather?lat=" +
+        latitude +
+        "&lon=" +
+        longitude +
+        "&APPID=f146799a557e8ab658304c1b30cc3cfd&units=metric",
+        function (data) {
+            let temp = data.main.temp + "°C";
+            //var temperature = Number((temp - 32) / 1.8000).toFixed(2) + "°C";
+            var location = data.name;
+            var description = data.weather[0].main;
+            var iconcode = data.weather[0].icon;
+            var description = data.weather[0].main;
+            var iconcode = data.weather[0].icon;
+            document.querySelector('#apiOpenWeather').innerHTML = `<table><tr>
+                                <td>${temp}<td>
+                                <td><img src="http://openweathermap.org/img/w/${iconcode}.png"/></td>
+                                <td>${description}</td>
+                                </tr></table>
+                                <p>${location}<p>`;
+        }
+    );
 
     function error() {
         location.innerHTML = "Unable to retrieve your location";
     }
 }
 //Load
-window.addEventListener('load', function () {
+window.addEventListener('DOMContentLoaded', function () {
     getWeather()
+})
+
+
+function sendTempfirebase() {
+    // latitude = position.coords.latitude;
+    // longitude = position.coords.longitude;
+    latitude = 10.8201;
+    longitude = 106.6892;
+    $.getJSON(
+        "https://api.openweathermap.org/data/2.5/weather?lat=" +
+        latitude +
+        "&lon=" +
+        longitude +
+        "&APPID=f146799a557e8ab658304c1b30cc3cfd&units=metric",
+        function (data) {
+            var tempsendfirebase = data.main.temp;
+            console.log(tempsendfirebase)
+            firebase.database().ref('PKThietBiDieuKhien').update({
+                "NhietDoBenNgoai": tempsendfirebase
+            })
+        }
+    );
+}
+window.addEventListener('load', function () {
+    sendTempfirebase()
 })
 
 // Lấy Data Phòng Khách
@@ -713,7 +763,7 @@ setTimeout(window.addEventListener('load', function () {
 // Show all data Phòng khách
 function showAllThongTinPK() {
     if (document.getElementById('hiddenAllDataPhongKhach').style.display === "none") {
-        document.getElementById('hiddenAllDataPhongKhach').style.display = "inline";
+        document.getElementById('hiddenAllDataPhongKhach').style.display = "block";
     }
     else {
         document.getElementById('hiddenAllDataPhongKhach').style.display = "none";
@@ -727,7 +777,7 @@ window.addEventListener('DOMContentLoaded', function () {
 // Show Phòng khach
 function showPhongKhach() {
     if (document.getElementById('hiddenPhongKhach').style.display === "none") {
-        document.getElementById('hiddenPhongKhach').style.display = "inline";
+        document.getElementById('hiddenPhongKhach').style.display = "block";
         document.getElementById('phongkhach').setAttribute("class", "border-blue-700 border-4");
     }
     else {
@@ -764,3 +814,21 @@ function OffAutoDaikinAC() {
 window.addEventListener('DOMContentLoaded', function () {
     OffAutoDaikinAC()
 })
+
+
+//Scroll top
+window.onscroll = function() {scrollFunction()};
+function scrollFunction() {
+    var mybutton = document.getElementById("scrolltopbtn");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+  
+  // When the user clicks on the button, scroll to the top of the document
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
