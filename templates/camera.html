@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.1/tailwind.min.css"
+        integrity="sha512-BAK6UB671tmfzrkeH1CacTvgHQ3aLAFnT2KsigdATsc5X7+3u42tb5vjmAoDiqtxphP5dNZ3cDygivTsGEJhGw=="
+        crossorigin="anonymous" />
+    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    </style>
+    <style>
+        #hiddenAllDataPhongKhach {
+            display: none;
+        }
+
+        #hiddenPhongKhach {
+            display: none;
+        }
+
+        #offautoDaikin {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-200">
+
+    <!-- API 7forest weather -->
+    <a class="weatherwidget-io" href="https://forecast7.com/en/10d82106d63/ho-chi-minh-city/" data-label_1="HO CHI MINH"
+        data-label_2="WEATHER" data-font="Consolas" data-icons="Climacons Animated" data-theme="hexellence"
+        data-textcolor="#460af2" data-highcolor="#ff0404" data-lowcolor="#008a63" data-cloudcolor="#49539d"
+        data-cloudfill="#a1def6" data-raincolor="#071272">HO CHI MINH WEATHER</a>
+    <script>
+        !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = 'https://weatherwidget.io/js/widget.min.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'weatherwidget-io-js');
+    </script>
+
+    <!-- NAV BAR -->
+    <nav>
+        <div class="flex flex-wrap">
+            <div class="w-full md:w-1/4 bg-gray-700 text-center text-white font-bold text-3xl p-3">IoT Smart Home
+            </div>
+            <div class="w-full md:w-3/4 bg-gray-500 text-center text-gray-200"
+                style="font-family: 'Brush Script MT', cursive;">
+                <ul class="flex flex-wrap">
+                    <li class="w-1/2 bg-gray-400 p-3 hover:bg-blue-500 text-3xl text-white hover:text-red-400">
+                        <a href="{{ url_for('index') }}" class="">
+                            Danh sách các phòng
+                        </a>
+                    </li>
+                    <li class="w-1/2 bg-gray-500 p-3 hover:bg-blue-500 text-3xl text-white hover:text-red-400">
+                        <a href="{{ url_for('camera') }}" class="" id="videobutton" value="video live stream">
+                            Camera
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="text-center">
+        <!-- video -->
+        <img src="{{ url_for('video_feed') }}" class="mx-auto">
+    </div>    
+    <div class="footer text-center bg-gray-400 text-white font-semibold text-xl">
+        <p class="mt-15">Nguyễn Cao Anh Minh - Nguyễn Thị Hậu</p>
+    </div>
+</body>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
+
+<script id="MainScript" src="../static/app.js"></script>
+
+</html>

@@ -1,0 +1,47 @@
+html {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+  /* Toggle LED & Daikin AC*/
+  input:checked ~ .dot {
+    transform: translateX(100%);
+    background-color: #48bb78;
+  }
+
+/* turn Up ang Down DaiKin AC */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-number-input input:focus {
+  outline: none !important;
+}
+
+.custom-number-input button:focus {
+  outline: none !important;
+}
+
+/* Footer */
+.footer {
+  height: 60px;
+  width: 100%;
+  bottom: 0;
+  background-image: none;
+  background-repeat: repeat;
+  background-attachment: scroll;
+  /* chạy theo thanh cuốn */
+  background-position: 0% 0%;
+  position: fixed;
+}
+
+.footer p {
+  padding: 15px 0px;
+  text-align: center;
+}
