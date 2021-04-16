@@ -1,1 +1,1 @@
-web: gunicorn app:appDDDdd
+web: gunicorn webdeploy:app
