@@ -1,7 +1,8 @@
 import cv2, sys, numpy, os,time
 from flask import Flask, render_template, Response, request
-import requests
-import telegram
+import requests, json
+from telegram import *
+from telegram.ext import *
 from datetime import datetime
 from datetime import date
 import os
@@ -22,6 +23,9 @@ today = date.today()
 dayy = today.strftime("%d_%m_%Y")
 datetimeString = now.strftime("%d/%m/%Y %H:%M:%S")
 
+apikey_weather = "f146799a557e8ab658304c1b30cc3cfd"
+baseurl_weather = "https://api.openweathermap.org/data/2.5/weather?"
+
 @app.route('/')
 def index():    
     #Video streaming home page
@@ -30,7 +34,7 @@ def index():
 #telegram bot
 def send_text_bot_telegram():
     try:
-        telegram_notify = telegram.Bot("1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw")
+        telegram_notify = Bot("1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw")
         message = "có người lạ"
         telegram_notify.send_message(chat_id="-1001288626996", text=message, parse_mode='Markdown')
     except Exception as ex:
@@ -38,6 +42,128 @@ def send_text_bot_telegram():
 def send_image_bot_telegram():
     files = {'photo':open('Unknown\%s\%s.jpg' %(dayy, current_time), 'rb')}
     resp = requests.post('https://api.telegram.org/bot1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw/sendPhoto?chat_id=-1001288626996&caption=%s' %datetimeString, files=files)
+
+######################################################################################################
+bot = Bot("1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw")
+updater = Updater("1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw", use_context=True)
+dispatcher = updater.dispatcher
+def chat_voi_bot(update:Update, context:CallbackContext):
+    fullurl_weather = 'http://api.openweathermap.org/data/2.5/weather?appid=f146799a557e8ab658304c1b30cc3cfd&q=SaiGon'
+    reponseW = requests.get(fullurl_weather)
+    x = reponseW.json()
+    if x["cod"] != "404":
+        city_name = x["name"]
+        y = x["main"]
+        current_temperature = y["temp"]
+        current_pressure = y["pressure"]
+        current_humidiy = y["humidity"]
+        z = x["weather"]
+        weather_description = z[0]["description"] #trạng thái thời tiếp với [0] là english
+
+        if str(weather_description) == "few clouds":
+            weather_description = "Mây ít"
+        elif str(weather_description) == "scattered clouds":
+            weather_description = "Mây rải rác"
+        elif str(weather_description) == "broken clouds":
+            weather_description = "Mây tảng to"
+        elif str(weather_description) == "overcast clouds":
+            weather_description = "Mây u ám"
+        elif str(weather_description) == "clear sky":
+            weather_description = "Bầu trời quang đãng"
+            #######
+        elif str(weather_description) == "rain":
+            weather_description = "Mưa"
+        elif str(weather_description) == "light rain":
+            weather_description = "Mưa nắng"
+        elif str(weather_description) == "moderate rain":
+            weather_description = "Mưa vừa"
+        elif str(weather_description) == "heavy intensity rain":
+            weather_description = "Mưa lớn"
+        elif str(weather_description) == "very heavy rain":
+            weather_description = "Mưa rất lớn"
+        elif str(weather_description) == "extreme rain":
+            weather_description = "Mưa cực lớn"
+        elif str(weather_description) == "freezing rain":
+            weather_description = "Mưa đóng băng"
+        elif str(weather_description) == "light intensity shower rain":
+            weather_description = "Mưa rào nhẹ"
+        elif str(weather_description) == "shower rain":
+            weather_description = "Mưa rào"
+        elif str(weather_description) == "heavy intensity shower rain":
+            weather_description = "Mưa rào cường độ lớn"
+        elif str(weather_description) == "ragged shower rain":
+            weather_description = "Mưa rào lớn"
+            #######
+        elif str(weather_description) == "light intensity drizzle":
+            weather_description = "Cường độ nhẹ Mưa phùn"
+        elif str(weather_description) == "drizzle":
+            weather_description = "Mưa phùn"
+        elif str(weather_description) == "heavy intensity drizzle":
+            weather_description = "Cường độ nặng Mưa phùn"
+        elif str(weather_description) == "light intensity drizzle rain":
+            weather_description = "Cường độ nhẹ Mưa phùn"
+        elif str(weather_description) == "drizzle rain":
+            weather_description = "Mưa phùn"
+        elif str(weather_description) == "heavy intensity drizzle rain":
+            weather_description = "Cường độ lớn Mưa phùn"
+        elif str(weather_description) == "shower rain and drizzle":
+            weather_description = "Mưa rào và Mưa phùn"
+        elif str(weather_description) == "heavy shower rain and drizzle":
+            weather_description = "Mưa rào và Mưa phùn (nặng hạt)"
+        elif str(weather_description) == "shower drizzle":
+            weather_description = "Mưa phùn"
+            #######
+        elif str(weather_description) == "thunderstorm with light rain":
+            weather_description = "Giông Bão có Mưa nhẹ"
+        elif str(weather_description) == "thunderstorm with rain":
+            weather_description = "Giông Bão có Mưa"
+        elif str(weather_description) == "thunderstorm with heavy rain":
+            weather_description = "Giông Bão với Mưa lớn"
+        elif str(weather_description) == "light thunderstorm":
+            weather_description = "Giông bão nhẹ"
+        elif str(weather_description) == "thunderstorm":
+            weather_description = "Giông tố"
+        elif str(weather_description) == "heavy thunderstorm":
+            weather_description = "Giông Bão lớn"
+        elif str(weather_description) == "ragged thunderstorm":
+            weather_description = "Cơn giông Bão"
+        elif str(weather_description) == "thunderstorm with light drizzle":
+            weather_description = "Giông Bão có Mưa phùn nhẹ"
+        elif str(weather_description) == "thunderstorm with drizzle":
+            weather_description = "Giông Bão có Mưa phùn"
+        elif str(weather_description) == "thunderstorm with heavy drizzle":
+            weather_description = "Giông Bão với Mưa phùn lớn"
+
+        t = x["wind"]
+        speed_wind = t["speed"]
+        weather_visibility = x["visibility"]
+        h = x["clouds"]
+        percent_cloud = h["all"]
+        textsend = (city_name +
+                    "\n Nhiệt độ: " +
+                            str(current_temperature-273.15) + "°C" + 
+                    "\n Áp suất khí quyển: " +
+                            str(current_pressure) + "hPa" +
+                    "\n Độ ẩm: " +
+                            str(current_humidiy) + "%" + 
+                    "\n Trạng thái thời tiết: " +
+                            str(weather_description) +
+                    "\n Tốc độ gió: " +
+                            str(speed_wind) + "m/s" + 
+                    "\n Tầm nhìn xa: " +
+                            str(weather_visibility/1000) + "km" +
+                    "\n Mật độ mây: " +
+                            str(percent_cloud) + "%")
+        bot.send_message(
+            chat_id = update.effective_chat.id,
+            text = textsend,
+        )
+    else:
+        print("City Not Found")
+start_value = CommandHandler('weather', chat_voi_bot)
+dispatcher.add_handler(start_value)
+updater.start_polling()
+############################################################################################################
 
 # Get the folders containing the training data
 for (subdirs, dirs, files) in os.walk(image_dir):
@@ -175,4 +301,4 @@ def video_feed():
     return Response(process(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0")

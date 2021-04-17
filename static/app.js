@@ -267,7 +267,7 @@ function loadonoffAutoDaikinAC() {
                     auto = data.val().autoDaikinAC;
                     //console.log(led)
                 }
-            );            
+            );
             if (auto == 1) {
                 document.getElementById('toggleAutoDaikinAC').checked = true;
             }
@@ -329,7 +329,7 @@ window.addEventListener('DOMContentLoaded', function () {
     turndownupDaikinAC()
 })
 
-function LoadNhietDoDaikinACMulti(){
+function LoadNhietDoDaikinACMulti() {
     firebase.database().ref().limitToFirst(parseInt(1)).on('value',
         function (snapshot) {
             snapshot.forEach(
@@ -833,18 +833,18 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 //Scroll top
-window.onscroll = function() {scrollFunction()};
+window.onscroll = function () { scrollFunction() };
 function scrollFunction() {
     var mybutton = document.getElementById("scrolltopbtn");
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      mybutton.style.display = "block";
+        mybutton.style.display = "block";
     } else {
-      mybutton.style.display = "none";
+        mybutton.style.display = "none";
     }
-  }
-  
-  // When the user clicks on the button, scroll to the top of the document
-  function topFunction() {
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-  }
+}

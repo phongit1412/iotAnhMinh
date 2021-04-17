@@ -25,7 +25,8 @@
         #offautoDaikin {
             display: none;
         }
-        #scrolltopbtn{
+
+        #scrolltopbtn {
             display: none;
             position: fixed;
             bottom: 65px;
@@ -67,7 +68,9 @@
         </div>
     </nav>
     <div>
-        <div onclick="topFunction()" id="scrolltopbtn" class="border-2 border-black rounded-full p-2 flex items-center justify-center bg-white font-bold text-xl right-2 hover:bg-black hover:text-white">Top</div>
+        <div onclick="topFunction()" id="scrolltopbtn"
+            class="border-2 border-black rounded-full p-2 flex items-center justify-center bg-white font-bold text-xl right-2 hover:bg-black hover:text-white">
+            Top</div>
     </div>
     <!-- table ROOM-->
     <div class="flex flex-wrap">
@@ -107,7 +110,8 @@
                                 class="xl:text-3xl lg:text-3xl md:text-2xl sm:text-xl xs:text-xl ml-5 text-gray-700 font-semibold">
                                 <div id="apiOpenWeather"></div>
                             </div>
-                            <div class="text-right"><a href="#hiddenAllDataPhongKhach" onclick="showAllThongTinPK()" id="showAllThongTinPK"
+                            <div class="text-right"><a href="#hiddenAllDataPhongKhach" onclick="showAllThongTinPK()"
+                                    id="showAllThongTinPK"
                                     class="hover:text-green-300 text-blue-700 font-extrabold">View more..></a></div>
                             <hr>
                             <table class="relative w-full border table-fixed">
@@ -295,20 +299,20 @@
                                                             id="imgMode2"></img></button>
                                                     <button class="" value="dry" id="valuebtnMode3"
                                                         onclick="getvalueModeDaikin()"><img
-                                                            class="border-2 border-red-200"
-                                                            src="../static/icon/dry.png" alt="" id="imgMode3"></button>
+                                                            class="border-2 border-red-200" src="../static/icon/dry.png"
+                                                            alt="" id="imgMode3"></button>
                                                     <button class="" value="fan" id="valuebtnMode4"
                                                         onclick="getvalueModeDaikin()"><img
-                                                            class="border-2 border-red-200"
-                                                            src="../static/icon/fan.png" alt="" id="imgMode4"></button>
+                                                            class="border-2 border-red-200" src="../static/icon/fan.png"
+                                                            alt="" id="imgMode4"></button>
                                                     <button class="" value="heat" id="valuebtnMode5"
                                                         onclick="getvalueModeDaikin()"><img
                                                             class="border-2 border-red-200"
                                                             src="../static/icon/heat.png" alt="" id="imgMode5"></button>
-                                                </div>                                                
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     <br>
                                     <br>
                                     <br>
@@ -374,7 +378,25 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
-
 <script id="MainScript" src="../static/app.js"></script>
+<script src="../static/annyang.min.js"></script>
+
+<script>
+    // Voice control Annyang Speech Recognition
+    var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
+    if (annyang) {
+        var commands = {
+            'hi': function () {
+                console.log("minh")                
+                firebaseRef.update({
+                    "LedStatus": "ON"
+                })
+                document.getElementById('toggleLED').checked = true;
+            }
+        }
+        annyang.addCommands(commands);
+        annyang.start();
+    }  
+</script>
 
 </html>
