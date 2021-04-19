@@ -11,8 +11,12 @@
         crossorigin="anonymous" />
     <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../static/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png">
     </style>
     <style>
         #hiddenAllDataPhongKhach {
@@ -68,15 +72,27 @@
             </div>
         </div>
     </nav>
-    <div>
-        <div onclick="topFunction()" id="scrolltopbtn"
-            class="border-2 border-black rounded-full p-2 flex items-center justify-center bg-white font-bold text-xl right-2 hover:bg-black hover:text-white">
-            Top</div>
-    </div>
-    <div>
-        <input type="text" id="voiceresult">
-        <button type="button" class="border-2 p-3" onclick="startVoiceControl()"><i class="fa fa-microphone"></i> start</button>
-        <button type="button" class="border-2 p-3" onclick="stopVoiceControl()"><i class="fa fa-remove"></i> stop</button>
+    <div class="flex flex-wrap">
+        <div class="md:w-2/3 bottom-16 w-full flex items-center justify-center" style="position: fixed;">
+            <div class="grid grid-cols-1 gap-1 text-center">
+                <div>
+                    <input type="text" id="voiceresult" class="p-2 bg-transparent w-auto">
+                </div>
+                <div>
+                    <button type="button" class="border-2 p-2 hover:bg-green-300" onclick="startVoiceControl()"><i
+                            class="fa fa-microphone"></i>
+                        start</button>
+                    <button type="button" class="border-2 p-2 hover:bg-red-300" onclick="stopVoiceControl()"><i
+                            class="fa fa-remove"></i>
+                        stop</button>
+                </div>
+            </div>
+        </div>
+        <div class="md:w-1/3">
+            <div onclick="topFunction()" id="scrolltopbtn"
+                class="border-2 border-black rounded-full p-2 flex items-center justify-center bg-white font-bold text-xl right-2 hover:bg-black hover:text-white">
+                &nbsp;^&nbsp;</div>
+        </div>
     </div>
     <!-- table ROOM-->
     <div class="flex flex-wrap">
