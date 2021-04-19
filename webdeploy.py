@@ -6,6 +6,9 @@ from telegram.ext import *
 from datetime import datetime
 from datetime import date
 import os
+import ssl
+context = ssl.SSLContext()
+context.load_cert_chain('cert.pem', 'key.pem')
 
 size = 2 # change this to 4 to speed up processing trade off is the accuracy
 classifier = 'haarcascade_frontalface_default.xml'
@@ -301,4 +304,4 @@ def video_feed():
     return Response(process(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
-    app.run(ssl_context=("cert.pem", "key.pem"))
+    app.run(host='127.0.0.1', debug=True, ssl_context=context)
