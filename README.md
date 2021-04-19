@@ -18,5 +18,5 @@
   + LED thu Hồng ngoại
 * Firebase là nơi chứ Database nhận từ ESP và Web
 * ESP-8266: thực viện việt đo đạt các chỉ số trong nhà và là thiết bị thu phát các lệnh remote.
-* Server chạy bằng python kết nối xử lý hình ảnh thông qua webcam (thiết bị ngoại vi). Đồng thời giúp deploy webapp duy trì hệ thống hoạt động 24/7.
+* Server chạy bằng Python Flask kết nối xử lý hình ảnh thông qua webcam (thiết bị ngoại vi). Đồng thời giúp deploy webapp duy trì hệ thống hoạt động 24/7.
 * Javascript xử lý tín hiệu âm thanh nhận vào.
