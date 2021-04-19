@@ -1,5 +1,5 @@
-# iotsmarthomeface
-Đồ án tốt nghiệp "Nhà thông minh"
+# Đồ án tốt nghiệp "Nhà thông minh". 2021
+
 - Bao gồm các mục sau:
   + Theo dỗi thông số cơ bản trong nhà như: Nhiệt độ, độ ẩm, độ sáng,...
   + Giám sát người ra vào cửa nhà bằng hệ thống camera giám sát khuôn mặt .
