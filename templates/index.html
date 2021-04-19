@@ -11,6 +11,7 @@
         crossorigin="anonymous" />
     <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../static/style.css">
     </style>
     <style>
@@ -73,11 +74,9 @@
             Top</div>
     </div>
     <div>
-        <button class="btn-start">Start</button>
-        <button class="btn-stop">Stop</button>
-        <textarea class="output" cols="30" rows="10"></textarea>
-        <div id="hihi"></div>
-        <script src="../static/voicecontrol.js"></script>       
+        <input type="text" id="voiceresult">
+        <button type="button" class="border-2 p-3" onclick="startVoiceControl()"><i class="fa fa-microphone"></i> start</button>
+        <button type="button" class="border-2 p-3" onclick="stopVoiceControl()"><i class="fa fa-remove"></i> stop</button>
     </div>
     <!-- table ROOM-->
     <div class="flex flex-wrap">
@@ -386,23 +385,54 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
 <script id="MainScript" src="../static/app.js"></script>
-<!-- <script src="../static/annyang.min.js"></script> -->
-<!-- <script>
-    // Voice control Annyang Speech Recognition
+<script type="text/javascript">
+    // Nhận dạng giọng nói
+    var voicecontrol = document.getElementById('voiceresult');
+    var speechRecognizer = new webkitSpeechRecognition();
     var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
-    if (annyang) {
-        var commands = {
-            'hi': function () {
-                console.log("minh")
-                firebaseRef.update({
-                    "LedStatus": "ON"
-                })
-                document.getElementById('toggleLED').checked = true;
-            }
+    function startVoiceControl() {
+        if ('webkitSpeechRecognition' in window) {
+            speechRecognizer.continuous = true; //tiếp tục đợi để nghe
+            speechRecognizer.interimResults = true; //kết quả tạm thời đoán trước(gợi ý từ)
+            speechRecognizer.start();
+            var finalTranscripts = '';
+            speechRecognizer.onresult = function (event) {
+                var interimTranscripts = '';
+                for (var i = event.resultIndex; i < event.results.length; i++) {
+                    var transcript = event.results[i][0].transcript;
+                    transcript.replace("\n", "<br>");
+                    if (event.results[i].isFinal) {
+                        finalTranscripts += transcript;
+                        //console.log("final: " + finalTranscripts)
+                    } else {
+                        interimTranscripts += transcript;
+                        //console.log("inter: " + interimTranscripts)
+                    }
+                }
+                //Kết quả thu được voicecontrol.value
+                voicecontrol.value = finalTranscripts + interimTranscripts;
+                var a = voicecontrol.value
+                console.log("voice control: " + voicecontrol.value)
+                if (a.toLowerCase() == "bật đèn") {
+                    firebaseRef.update({
+                        "LedStatus": "ON"
+                    })
+                }
+                else if (a.toLowerCase() == "tắt đèn") {
+                    firebaseRef.update({
+                        "LedStatus": "OFF"
+                    })
+                }
+            };
+            speechRecognizer.onerror = function (event) {
+            };
+        } else {
+            voicecontrol.innerHTML = 'No browser support. Please upgrade your browser';
         }
-        annyang.addCommands(commands);
-        annyang.start();
     }
-</script> -->
+    function stopVoiceControl() {
+        speechRecognizer.stop();
+    }
+</script>
 
 </html>
