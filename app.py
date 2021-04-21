@@ -1,4 +1,4 @@
-import cv2, sys, numpy, os,time
+import cv2, sys, numpy, os, time
 from flask import Flask, render_template, Response, request
 import requests, json
 from telegram import *
@@ -301,4 +301,5 @@ def video_feed():
     return Response(process(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
-    app.run(ssl_context=('cert.pem', 'key.pem'))
+    #ssl_context=('cert.pem', 'key.pem')
+    app.run(host="0.0.0.0", port="8080")
