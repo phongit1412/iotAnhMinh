@@ -18,6 +18,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lobster&family=Merienda+One&family=Pacifico&family=Sedgwick+Ave&family=Srisakdi:wght@700&display=swap"
+        rel="stylesheet">
     </style>
     <style>
         #hiddenAllDataPhongKhach {
@@ -55,8 +59,9 @@
     <!-- NAV BAR -->
     <nav>
         <div class="flex flex-wrap">
-            <div class="w-full bg-yellow-400 md:w-1/4 text-center text-red-900 font-bold text-2xl xl:text-3xl p-2"><i
-                    class="fas fa-laptop-house"></i> IoT Smart Home
+            <div class="w-full bg-yellow-400 md:w-1/4 text-center text-green-900 text-4xl xl:text-3xl p-2"
+                style="font-family: 'Merienda One', cursive;;
+            "><i class="fas fa-laptop-house"></i> IoT Smart Home
             </div>
             <div class="w-full md:w-3/4 text-center text-gray-200" style="font-family: 'Brush Script MT', cursive;">
                 <ul class="flex flex-wrap">
@@ -104,23 +109,22 @@
         <!-- danh sách phòng -->
         <div class="w-full md:w-1/4">
             <br>
-            <div class="grid grid-cols-2 gap-3 text-2xl text-center font-bold mx-2"
-                style="font-family: Arial, Helvetica, sans-serif">
-                <div class="text-blue-700">
-                    Phòng Khách <i class="fas fa-couch"></i>
+            <div class="grid grid-cols-2 gap-3 text-2xl text-center mx-2" style="font-family: 'Pacifico', cursive;">
+                <div class="text-blue-700"><div class="p-2">
+                    Phòng Khách <i class="fas fa-couch"></i></div>
                     <a href="#hiddenPhongKhach" onclick="showPhongKhach()"><img src="../static/home.jpg" alt=""
                             class="border-4 border-gray-400" id="phongkhach"></a>
                 </div>
-                <div class="text-red-700">
-                    Phòng Ngủ <i class="fas fa-procedures"></i>
+                <div class="text-red-700"><div class="p-2">
+                    Phòng Ngủ <i class="fas fa-procedures"></i></div>
                     <a href="#"><img src="../static/home.jpg" alt="" class="border-4 border-gray-400"></a>
                 </div>
-                <div class="text-green-700">
-                    Nhà Bếp <i class="fas fa-mug-hot"></i>
+                <div class="text-green-700"><div class="p-2">
+                    Nhà Bếp <i class="fas fa-mug-hot"></i></div>
                     <a href="#"><img src="../static/home.jpg" alt="" class="border-4 border-gray-400"></a>
                 </div>
-                <div class="text-pink-400">
-                    Nhà Vệ Sinh <i class="fa fa-bath" aria-hidden="true"></i>
+                <div class="text-pink-400"><div class="p-2">
+                    Nhà Vệ Sinh <i class="fa fa-bath" aria-hidden="true"></i></div>
                     <a href="#"><img src="../static/home.jpg" alt="" class="border-4 border-gray-400"></a>
                 </div>
             </div>
@@ -176,7 +180,8 @@
                             </div>
                             <br>
                             <div class="flex flex-wrap text-center">
-                                <div class="w-full md:w-1/2 text-gray-700 font-medium xl:text-2xl">Turn On/Off LED <i
+                                <div class="w-full md:w-1/2 text-gray-700 font-bold xl:text-2xl"
+                                    style="font-family: 'Sedgwick Ave', cursive;">Bật-Tắt đèn LED <i
                                         class="far fa-lightbulb"></i></div>
                                 <div class="w-full md:w-1/2">
                                     <!-- Toggle LED -->
@@ -205,7 +210,9 @@
                             </div>
                             <br>
                             <div class="flex flex-wrap text-center">
-                                <div class="w-full md:w-1/2 text-gray-700 font-medium xl:text-2xl">Auto Control DaiKinAC
+                                <div class="w-full md:w-1/2 text-gray-700 font-bold xl:text-2xl"
+                                    style="font-family: 'Sedgwick Ave', cursive;">Chế độ tự động
+                                    DaikinAC
                                 </div>
                                 <div class="w-full md:w-1/2">
                                     <!-- Toggle DaikinAC -->
@@ -238,7 +245,7 @@
                                     <div class="md:w-1/2 w-full">
                                         <div class="flex flex-wrap">
                                             <div class="w-1/2 text-center">
-                                                <div>Turn On-Off <i class="fas fa-power-off"></i></div>
+                                                <div class="font-bold">Turn On-Off <i class="fas fa-power-off"></i></div>
                                                 <div class="flex items-center justify-center w-full mt-2">
 
                                                     <label for="toggleDaikinAC"
@@ -260,8 +267,9 @@
                                             <div class="w-1/2 text-center">
                                                 <div class="custom-number-input">
                                                     <label for="custom-input-number"
-                                                        class="text-gray-700 text-sm font-semibold">
-                                                        <i class="fas fa-level-down-alt"></i> Down - Up <i class="fas fa-level-up-alt"></i>
+                                                        class="font-bold">
+                                                        <i class="fas fa-level-down-alt"></i> Down - Up <i
+                                                            class="fas fa-level-up-alt"></i>
                                                     </label>
                                                     <div class="text-center mx-2">
                                                         <div
@@ -291,7 +299,7 @@
                                     <div class="md:w-1/2 w-full">
                                         <div class="flex flex-wrap">
                                             <div class="w-1/2 md:w-1/2 text-center">
-                                                <div>Fan <i class="fas fa-fan"></i></div>
+                                                <div class="font-bold">Fan <i class="fas fa-fan"></i></div>
                                                 <div>
                                                     <button class="" value="min" id="valuebtnFan1"
                                                         onclick="getvalueFanDaikin()"><img
@@ -311,7 +319,7 @@
                                                 </div>
                                             </div>
                                             <div class="w-1/2 md:w-1/2 text-center">
-                                                <div>Mode <i class="far fa-list-alt"></i></div>
+                                                <div class="font-bold">Mode <i class="far fa-list-alt"></i></div>
                                                 <div>
                                                     <button class="" value="auto" id="valuebtnMode1"
                                                         onclick="getvalueModeDaikin()"><img
@@ -358,7 +366,9 @@
                             <img src="{{ url_for('video_feed') }}" class="mx-auto">
                         </div>
                         <div id="hiddenAllDataPhongKhach">
-                            <div class="text-2xl text-center">Thống kê dữ liệu phòng khách</div>
+                            <div class="text-3xl text-center p-3 text-red-500" style="font-family: 'Lobster', cursive;">
+                                Thống kê dữ
+                                liệu phòng khách</div>
                             <table class="text-center w-full">
                                 <thead class="bg-red-300 flex text-white w-full">
                                     <tr class="m-2 w-full flex">
@@ -392,7 +402,7 @@
             </div>
         </div>
     </div>
-    <div class="footer text-center bg-yellow-200 text-yellow-700 font-semibold text-xl">
+    <div class="footer text-center bg-yellow-200 text-yellow-700 text-2xl" style="font-family: 'Srisakdi', cursive;">
         <p class="mt-15">Nguyễn Cao Anh Minh - Nguyễn Thị Hậu</p>
     </div>
 </body>
