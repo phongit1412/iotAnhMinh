@@ -31,10 +31,11 @@ Sử dụng
 from flask import Flask, render_template, Response, request
 app = Flask(__name__)
 @app.route('/') //Bắt route
-def index():    
-      return render_template('index.html')
-if __name__ == "__main__":
-      app.run(host="0.0.0.0", port="8080")
+def index():  
+  return render_template('index.html')  
+if __name__ == "__main__":  
+  app.run(host="0.0.0.0", port="8080")
+  
 Tại đấy render_template mở file index.html trong folder templates với đường dẫn mặc định VD: http://127.0.0.1:8080
   
 ![alt text](https://i.imgur.com/ZkzI0MG.png) 
@@ -42,12 +43,12 @@ Tại đấy render_template mở file index.html trong folder templates với �
 Tương tự như thế đến phần webcam
 @app.route('/camera') 
 def camera():    
-    return render_template('camera.html')
+  return render_template('camera.html')
 truy cập đến trang camera.html -> VD như này: http://127.0.0.1:8080/camera
 tại trang camera ta dùng 
 <div class="text-center">
-          <!-- video -->
-          <img src="{{ url_for('video_feed') }}" class="mx-auto">
+  <!-- video -->
+  <img src="{{ url_for('video_feed') }}" class="mx-auto">
 </div>
 
 Để render hình ảnh đến. Phần xử lý ảnh như sau:
