@@ -37,7 +37,7 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port="8080")
 Tại đấy render_template mở file index.html trong folder templates với đường dẫn mặc định VD: http://127.0.0.1:8080
 <space>
-![alt text](https://i.imgur.com/ZkzI0MG.png)
+![alt text](https://i.imgur.com/ZkzI0MG.png) 
 <space>
 Tương tự như thế đến phần webcam
 @app.route('/camera') 
