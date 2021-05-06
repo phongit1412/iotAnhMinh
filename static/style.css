@@ -1,10 +1,18 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+* {
+  cursor: none;
+}
 html {
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
         sans-serif;
 }
 
 body {
-    margin: 0;
+    overflow-x: hidden;
 }
 
   /* Toggle LED & Daikin AC*/
@@ -44,4 +52,107 @@ input[type='number']::-webkit-outer-spin-button {
 .footer p {
   padding: 15px 0px;
   text-align: center;
+}
+
+
+/* Tạo hiệu ứng bong bóng */
+.bubbles img{
+  width: 50px;
+  animation: bubble 7s linear infinite;
+}
+
+.bubbles{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  bottom: 0px;
+}
+
+@keyframes bubble{
+  0%{
+    transform: translateY(0);
+    opacity: 0;
+  }
+  5%{
+    opacity: 1;
+  }
+  70%{
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(-80vh);
+    opacity: 1;
+  }
+}
+
+.bubbles img:nth-child(1){
+  animation-delay: 2s;
+  width: 25px;
+}
+.bubbles img:nth-child(2){
+  animation-delay: 1s;
+}
+.bubbles img:nth-child(3){
+  animation-delay: 3s;
+  width: 25px;
+}
+.bubbles img:nth-child(4){
+  animation-delay: 4.5s;
+}
+.bubbles img:nth-child(5){
+  animation-delay: 3s;
+  width: 60px;
+}
+.bubbles img:nth-child(6){
+  animation-delay: 6s;
+  width: 20px;
+}
+.bubbles img:nth-child(7){
+  animation-delay: 7s;
+  width: 35px;
+}
+
+/* Con trỏ chuột */
+.cursor {
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* border: 2px solid white; */
+  /* background-color: rgba(255, 255, 255, 0.356); */
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.cursor::after, .cursor::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: red;
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+}
+.cursor::before {
+  background-color: yellow;
+}
+.cursor.click::before {  /* sau khi click chuột */
+  animation: click .5s ease forwards;
+  background-color: yellow;
+}
+@keyframes click {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(7);
+  }
 }

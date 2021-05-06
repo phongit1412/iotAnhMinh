@@ -104,6 +104,20 @@
             </div>
         </div>
     </div>
+    <!-- Bubbles -->
+    <div class="bubbles">
+        <img src="../static/bubble.png" alt="">
+        <img src="../static/bubble.png" alt="">
+        <img src="../static/bubble.png" alt="">
+        <img src="../static/bubble.png" alt="">
+        <img src="../static/bubble.png" alt="">
+        <img src="../static/bubble.png" alt="">
+        <img src="../static/bubble.png" alt="">
+    </div>
+
+    <!-- Cursor custom mouse -->
+    <div class="cursor"></div>
+
     <!-- table ROOM-->
     <div class="flex flex-wrap">
         <!-- danh sách phòng -->
@@ -113,19 +127,19 @@
                 <div class="text-blue-700"><div class="p-2">
                     Phòng Khách <i class="fas fa-couch"></i></div>
                     <a href="#hiddenPhongKhach" onclick="showPhongKhach()"><img src="../static/livingroom.jpg" alt=""
-                            class="border-4 border-gray-400 p-1.5" id="phongkhach"></a>
+                            class="border-4 border-gray-400 p-2" id="phongkhach"></a>
                 </div>
                 <div class="text-red-700"><div class="p-2">
                     Phòng Ngủ <i class="fas fa-procedures"></i></div>
-                    <a href="#"><img src="../static/bedroom.jpg" alt="" class="border-4 border-gray-400 p-1.5"></a>
+                    <a href="#"><img src="../static/bedroom.jpg" alt="" class="border-4 border-gray-400 p-2"></a>
                 </div>
                 <div class="text-green-700"><div class="p-2">
                     Nhà Bếp <i class="fas fa-mug-hot"></i></div>
-                    <a href="#"><img src="../static/kitchen.jpg" alt="" class="border-4 border-gray-400 p-1.5"></a>
+                    <a href="#"><img src="../static/kitchen.jpg" alt="" class="border-4 border-gray-400 p-2"></a>
                 </div>
                 <div class="text-pink-400"><div class="p-2">
                     Nhà Vệ Sinh <i class="fa fa-bath" aria-hidden="true"></i></div>
-                    <a href="#"><img src="../static/toilet.jpg" alt="" class="border-4 border-gray-400 p-1.5"></a>
+                    <a href="#"><img src="../static/toilet.jpg" alt="" class="border-4 border-gray-400 p-2"></a>
                 </div>
             </div>
             <br>
@@ -400,7 +414,7 @@
         </div>
     </div>
     <div class="footer text-center bg-yellow-200 text-yellow-700 text-2xl" style="font-family: 'Srisakdi', cursive;">
-        <p class="mt-15">Nguyễn Cao Anh Minh - Nguyễn Thị Hậu</p>
+        <p class="mt-15">Ng~ Cao Anh Minh - Ng~ Thị Hậu</p>
     </div>
 </body>
 
@@ -412,6 +426,7 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
 <script id="MainScript" src="../static/app.js"></script>
+<script src="../static/mousecustom.js"></script>
 <script type="text/javascript">
     // Nhận dạng giọng nói
     var voicecontrol = document.getElementById('voiceresult');

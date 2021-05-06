@@ -799,7 +799,7 @@ function showPhongKhach() {
     else {
         document.getElementById('hiddenPhongKhach').style.display = "none";
         document.getElementById('hiddenAllDataPhongKhach').style.display = "none";
-        document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-1.5");
+        document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-2");
     }
 }
 // Load
