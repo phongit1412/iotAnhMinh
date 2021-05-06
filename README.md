@@ -45,9 +45,9 @@ def camera():
   return render_template('camera.html')  
 truy cập đến trang camera.html -> VD như này: http://127.0.0.1:8080/camera  
 tại trang camera ta dùng  
-<div class="text-center">  
-  <!-- video -->  
-  <img src="{{ url_for('video_feed') }}" class="mx-auto">  
+<div class="text-center>  
+  <!-- Video -->  
+  <img src="{{ url_for('video_feed')}}" class="max-auto">  
 </div>  
 Để render hình ảnh đến. Phần xử lý ảnh như sau:  
 Từ khoá Face detection with Python: (Kiểm tra viền mặt)  
