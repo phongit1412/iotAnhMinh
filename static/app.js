@@ -794,7 +794,9 @@ window.addEventListener('DOMContentLoaded', function () {
 function showPhongKhach() {
     if (document.getElementById('hiddenPhongKhach').style.display === "none") {
         document.getElementById('hiddenPhongKhach').style.display = "block";
+        document.getElementById('hiddenNhaBep').style.display = "none";
         document.getElementById('phongkhach').setAttribute("class", "border-blue-700 border-4");
+        document.getElementById('nhabep').setAttribute("class", "border-4 border-gray-400 p-2");
     }
     else {
         document.getElementById('hiddenPhongKhach').style.display = "none";
@@ -848,3 +850,154 @@ function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
+
+
+// Show Nhà Bếp
+function showNhaBep() {
+    if (document.getElementById('hiddenNhaBep').style.display === "none") {
+        document.getElementById('hiddenNhaBep').style.display = "block";
+        document.getElementById('hiddenPhongKhach').style.display = "none";
+        document.getElementById('hiddenAllDataPhongKhach').style.display = "none";
+        document.getElementById('nhabep').setAttribute("class", "border-blue-700 border-4");
+        document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-2");
+    }
+    else {
+        document.getElementById('hiddenNhaBep').style.display = "none";
+        document.getElementById('nhabep').setAttribute("class", "border-4 border-gray-400 p-2");
+    }
+}
+// Load
+window.addEventListener('DOMContentLoaded', function () {
+    showNhaBep()
+})
+
+
+window.feed = function (callback) {
+    var tick = {};
+    var value;
+    firebase.database().ref().limitToFirst(parseInt(1)).on('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    value = data.val().KhiGas;                   
+                }
+            )
+        })    
+    tick.plot0 = value;
+    callback(JSON.stringify(tick));
+};
+// Vẽ biểu đồ Gauge Nồng độ khí Gas
+function drawGaugeGas() {
+    var myConfig = {
+        type: "gauge",
+        globals: {
+            fontSize: 25,
+            backgroundColor: 'none'
+        },
+        plotarea: {
+            backgroundColor: 'transparent',
+            marginTop: 80
+        },
+        plot: {
+            size: '100%',
+            valueBox: {
+                placement: 'center',
+                text: '%v', //default
+                fontSize: 35,
+                rules: [{
+                    rule: '%v >= 700',
+                    "font-color": "#ff0000",                  
+                    text: '%v<br>Danger alarm'
+                },
+                {
+                    rule: '%v < 700 && %v > 640',
+                    "font-color": "#ff9933",
+                    text: '%v<br>Warning alarm'
+                },
+                {
+                    rule: '%v < 640 && %v > 580',
+                    "font-color": "#ffcc00",
+                    text: '%v<br>Bad'
+                },
+                {
+                    rule: '%v <  580',
+                    "font-color": "#00cc66",
+                    text: '%v<br>Good'
+                }
+                ]
+            }
+        },
+        tooltip: {
+            borderRadius: 5
+        },
+        scaleR: {
+            aperture: 180,
+            minValue: 300,
+            maxValue: 850,
+            step: 50,
+            center: {
+                visible: false
+            },
+            tick: {
+                visible: false
+            },
+            item: {
+                offsetR: 0,
+                rules: [{
+                    rule: '%i == 9',
+                    offsetX: 15
+                }]
+            },
+            labels: ['300', '', '', '', '', '', '580', '640', '700', '750', '', '850'],
+            ring: {
+                size: 50,
+                rules: [{
+                    rule: '%v <= 580',
+                    backgroundColor: '#66ff66 #006600'
+                },
+                {
+                    rule: '%v > 580 && %v < 640',
+                    backgroundColor: '#ffff4d'
+                },
+                {
+                    rule: '%v >= 640 && %v < 700',
+                    backgroundColor: '#ffa366'
+                },
+                {
+                    rule: '%v >= 700',
+                    backgroundColor: '#ff6666 #4d0000'
+                }
+                ]
+            }
+        },
+        refresh: {
+            type: "feed",
+            transport: "js",
+            url: "feed()",
+            interval: 1500,
+            resetTimeout: 1000
+        },
+        series: [{
+            values: [55], // starting value
+            backgroundColor: 'black',
+            indicator: [10, 5, 100, 0, 0.3],
+            animation: {
+                effect: 2,
+                method: 1,
+                sequence: 4,
+                speed: 900
+            },
+        }]
+    };
+
+    zingchart.render({
+        id: 'chartGas',
+        data: myConfig,
+        height: 500,
+        width: '100%'
+    });
+}
+// Load
+window.addEventListener('DOMContentLoaded', function () {
+    drawGaugeGas()
+})

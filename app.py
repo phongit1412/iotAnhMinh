@@ -5,7 +5,8 @@ from telegram import *
 from telegram.ext import *
 from datetime import datetime
 from datetime import date
-import os
+from firebase import firebase
+
 
 size = 2 # change this to 4 to speed up processing trade off is the accuracy
 classifier = 'haarcascade_frontalface_default.xml'
@@ -26,8 +27,13 @@ datetimeString = now.strftime("%d/%m/%Y %H:%M:%S")
 apikey_weather = "f146799a557e8ab658304c1b30cc3cfd"
 baseurl_weather = "https://api.openweathermap.org/data/2.5/weather?"
 
+firebase = firebase.FirebaseApplication('https://minhpart2-7ddad-default-rtdb.firebaseio.com/', None)
+resultFirebaseGas = firebase.get('/minhpart2-7ddad-default-rtdb/PKThietBiDieuKhien/KhiGas', data)
+print(resultFirebaseGas)
+
 @app.route('/')
-def index():    
+def index():
+        
     #Video streaming home page
     return render_template('index.html')
 
@@ -302,4 +308,4 @@ def video_feed():
 
 if __name__ == "__main__":
     #ssl_context=('cert.pem', 'key.pem')
-    app.run(host="127.0.0.1", port="5380")
+    app.run(host="127.0.0.1", port="8080")
