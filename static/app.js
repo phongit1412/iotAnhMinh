@@ -879,12 +879,25 @@ window.feed = function (callback) {
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
-                    value = data.val().KhiGas;                   
+                    value = data.val().KhiGas;
+                    if (value > 700) {
+                        console.log("Cảnh báo nguy hiểm: CÓ KHÍ GAS!!!")
+                        var token = '1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw';
+                        var chat_id = -1001288626996;
+                        var my_text = "Cảnh báo nguy hiểm: CÓ KHÍ GAS!!!";
+                        var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${my_text}&parse_mode=html`;
+                        let api = new XMLHttpRequest();
+                        api.open("GET", url, true);
+                        setTimeout(() => {
+                            api.send();
+                        })                        
+                    }
                 }
             )
-        })    
+        })
     tick.plot0 = value;
     callback(JSON.stringify(tick));
+
 };
 // Vẽ biểu đồ Gauge Nồng độ khí Gas
 function drawGaugeGas() {
@@ -906,7 +919,7 @@ function drawGaugeGas() {
                 fontSize: 35,
                 rules: [{
                     rule: '%v >= 700',
-                    "font-color": "#ff0000",                  
+                    "font-color": "#ff0000",
                     text: '%v<br>Danger alarm'
                 },
                 {

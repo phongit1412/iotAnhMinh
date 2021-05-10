@@ -5,8 +5,6 @@ from telegram import *
 from telegram.ext import *
 from datetime import datetime
 from datetime import date
-from firebase import firebase
-
 
 size = 2 # change this to 4 to speed up processing trade off is the accuracy
 classifier = 'haarcascade_frontalface_default.xml'
@@ -27,13 +25,8 @@ datetimeString = now.strftime("%d/%m/%Y %H:%M:%S")
 apikey_weather = "f146799a557e8ab658304c1b30cc3cfd"
 baseurl_weather = "https://api.openweathermap.org/data/2.5/weather?"
 
-firebase = firebase.FirebaseApplication('https://minhpart2-7ddad-default-rtdb.firebaseio.com/', None)
-resultFirebaseGas = firebase.get('/minhpart2-7ddad-default-rtdb/PKThietBiDieuKhien/KhiGas', data)
-print(resultFirebaseGas)
-
 @app.route('/')
-def index():
-        
+def index():          
     #Video streaming home page
     return render_template('index.html')
 
@@ -221,8 +214,8 @@ try:
 except OSError as error:
     print("Directory '%s' can not be created" % directory)
 
-def process():
-    while True:
+def process():    
+    while True:        
         # Loop until the camera is working
         rval = False
         while(not rval):
@@ -262,7 +255,6 @@ def process():
                 cv2.rectangle(frame,start , end, (0, 255, 0), 3) # creating a bounding box for detected face
                 cv2.rectangle(frame, (start[0],start[1]-20), (start[0]+120,start[1]), (0, 255, 255), -3) # creating  rectangle on the upper part of bounding box
                 #for i in prediction[1]
-                
                 if prediction[1]<90 :  # note: 0 is the perfect match  the higher the value the lower the accuracy
                     cv2.putText(frame,'%s - %.0f' % (names[prediction[0]],prediction[1]),(x+5, y-5), cv2.FONT_HERSHEY_SIMPLEX,0.6,(0, 0, 0),thickness=2)
                     #print('%s - %.0f' % (names[prediction[0]],prediction[1]))
@@ -305,6 +297,7 @@ def home():
 def video_feed():
     #Video streaming route
     return Response(process(),mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 if __name__ == "__main__":
     #ssl_context=('cert.pem', 'key.pem')
