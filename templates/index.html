@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/js css/style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png">
@@ -131,35 +131,35 @@
         <div class="flex flex-wrap">
             <!-- danh sách phòng -->
             <div class="w-full md:w-1/4">
-                <br>
                 <div class="grid grid-cols-2 gap-3 text-2xl text-center mx-3" style="font-family: 'Pacifico', cursive;">
                     <div class="text-blue-700">
                         <div class="p-2">
                             Phòng Khách <i class="fas fa-couch"></i></div>
-                        <a href="#hiddenPhongKhach" onclick="showPhongKhach()"><img src="../static/livingroom.jpg"
+                        <a href="#hiddenPhongKhach" onclick="showPhongKhach()"><img src="../static/room/livingroom.png"
                                 alt="" class="border-4 border-gray-400 p-2" id="phongkhach"></a>
                     </div>
                     <div class="text-red-700">
                         <div class="p-2">
                             Phòng Ngủ <i class="fas fa-procedures"></i></div>
-                        <a href="#"><img src="../static/bedroom.jpg" alt="" class="border-4 border-gray-400 p-2"></a>
+                        <a href="#"><img src="../static/room/bedroom.png" alt="" class="border-4 border-gray-400 p-2"></a>
                     </div>
                     <div class="text-green-700">
                         <div class="p-2">
                             Nhà Bếp <i class="fas fa-mug-hot"></i></div>
-                        <a href="#hiddenNhaBep" onclick="showNhaBep()"><img src="../static/kitchen.jpg" alt=""
+                        <a href="#hiddenNhaBep" onclick="showNhaBep()"><img src="../static/room/kitchen.png" alt=""
                                 class="border-4 border-gray-400 p-2" id="nhabep"></a>
                     </div>
-                    <div class="text-pink-400">
+                    <div class="text-yellow-500">
                         <div class="p-2">
                             Nhà Vệ Sinh <i class="fa fa-bath" aria-hidden="true"></i></div>
-                        <a href="#"><img src="../static/toilet.jpg" alt="" class="border-4 border-gray-400 p-2"></a>
+                        <a href="#"><img src="../static/room/toilet.png" alt="" class="border-4 border-gray-400 p-2"></a>
                     </div>
                 </div>
-                <br>
-                <br>
             </div>
             <div class="w-full md:w-3/4">
+                <div id="imageStayAtHome">
+                    <img src="../static/room/stayathome.png" alt="" class="xl:w-3/4 mx-auto">
+                </div>
                 <div class="flex flex-wrap mx-2">
                     <div class="md:w-1/2">
                         <!-- Thông số phòng khách -->
@@ -382,29 +382,29 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <br>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Image living room at home -->
+                            <div>
+                                <img src="../static/room/livingroomathome.jpg" alt="">
+                            </div>
                         </div>
                         <!-- Thông số nhà bếp -->
-                        <div id="hiddenNhaBep">
+                        <div id="hiddenNhaBep" class="">
                             <div>
                                 <div class="text-center text-2xl mt-8">Nồng độ khí Gas</div>
                                 <div class="text-center ">chỉ số mhmhm..</div>
-                                <div id='chartGas'><a class="zc-ref" href="https://www.zingchart.com/">                                        
+                                <div id='chartGas'><a class="zc-ref" href="https://www.zingchart.com/">
                                     </a></div>
                             </div>
+                            <!-- image kitchen at home -->
+                            <img src="../static/room/kitchenathome.jpg" alt="" style="height: 269px;"
+                                class="object-none object-top w-full">
                         </div>
-                        <br>
-                        <br>
-                        <br>
                     </div>
                     <div class="md:w-1/2 w-full">
-                        <div class="mx-2">                            
+                        <div class="mx-2">
                             <!-- video live -->
                             <div class="text-center hidden">
                                 <img src="{{ url_for('video_feed') }}" class="mx-auto">
@@ -447,14 +447,15 @@
         </div>
         <!-- Bubbles -->
         <div class="bubbles">
-            <img src="../static/bubble.png" alt="">
-            <img src="../static/bubble.png" alt="">
-            <img src="../static/bubble.png" alt="">
-            <img src="../static/bubble.png" alt="">
-            <img src="../static/bubble.png" alt="">
-            <img src="../static/bubble.png" alt="">
-            <img src="../static/bubble.png" alt="">
+            <img src="../static/icon/bubble.png" alt="">
+            <img src="../static/icon/bubble.png" alt="">
+            <img src="../static/icon/bubble.png" alt="">
+            <img src="../static/icon/bubble.png" alt="">
+            <img src="../static/icon/bubble.png" alt="">
+            <img src="../static/icon/bubble.png" alt="">
+            <img src="../static/icon/bubble.png" alt="">
         </div>
+        <!-- Footer -->
         <div class="footer text-center text-2xl bg-gradient-to-r from-purple-400 via-green-200 to-blue-300"
             style="font-family: 'Srisakdi', cursive;">
             <p class="mt-15">Ng~ Cao Anh Minh - Ng~ Thị Hậu</p>
@@ -469,10 +470,10 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
-<script id="MainScript" src="../static/app.js"></script>
-<script src="../static/mousecustom.js"></script>
-<script type="text/javascript">
-    // Nhận dạng giọng nói
+<script id="MainScript" src="../static/js css/app.js"></script>
+<script src="../static/js css/mousecustom.js"></script>
+<!-- Nhận dạng giọng nói -->
+<script type="text/javascript">    
     var voicecontrol = document.getElementById('voiceresult');
     var speechRecognizer = new webkitSpeechRecognition();
     var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')

@@ -5,6 +5,10 @@ from telegram import *
 from telegram.ext import *
 from datetime import datetime
 from datetime import date
+import crypto
+import sys
+sys.modules['Crypto'] = crypto
+import pyrebase
 
 size = 2 # change this to 4 to speed up processing trade off is the accuracy
 classifier = 'haarcascade_frontalface_default.xml'
@@ -25,9 +29,22 @@ datetimeString = now.strftime("%d/%m/%Y %H:%M:%S")
 apikey_weather = "f146799a557e8ab658304c1b30cc3cfd"
 baseurl_weather = "https://api.openweathermap.org/data/2.5/weather?"
 
+firebaseConfig = {
+    "apiKey": "AIzaSyBQfGze72rHnbK0jhnX-aIGUbAuLs6pdvI",
+    "authDomain": "minhpart2-7ddad.firebaseapp.com",
+    "databaseURL": "https://minhpart2-7ddad-default-rtdb.firebaseio.com",
+    "projectId": "minhpart2-7ddad",
+    "storageBucket": "minhpart2-7ddad.appspot.com",
+    "messagingSenderId": "616895406183",
+    "appId": "1:616895406183:web:bb4f6ba2ac5a7638fe34c2",
+    "measurementId": "G-1Y8JM6GMKT"
+ }
+firebase = pyrebase.initialize_app(firebaseConfig)
+storage = firebase.storage()
+
 @app.route('/')
 def index():          
-    #Video streaming home page
+    #render home page
     return render_template('index.html')
 
 #telegram bot
@@ -266,6 +283,8 @@ def process():
                     print("Unknown -",prediction[1])
                     if(alen > 50):                        
                         showPic = cv2.imwrite("Unknown/%s/%s.jpg" %(dayy, current_time),frame)
+                        path_local = ("Unknown/%s/%s.jpg" %(dayy, current_time))
+                        storage.child("Unknown/%s/%s.jpg" %(dayy, current_time)).put(path_local)
                         send_text_bot_telegram()                        
                         send_image_bot_telegram()                        
                         countUnknown.clear()                        
@@ -293,11 +312,10 @@ def camera():
 def home():    
     return render_template('index.html')
 
+#Video streaming route
 @app.route('/video_feed')
-def video_feed():
-    #Video streaming route
+def video_feed():    
     return Response(process(),mimetype='multipart/x-mixed-replace; boundary=frame')
-
 
 if __name__ == "__main__":
     #ssl_context=('cert.pem', 'key.pem')
