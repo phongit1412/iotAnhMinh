@@ -796,14 +796,14 @@ function showPhongKhach() {
         document.getElementById('hiddenPhongKhach').style.display = "block";
         document.getElementById('hiddenNhaBep').style.display = "none";
         document.getElementById('imageStayAtHome').style.display = "none";
-        document.getElementById('phongkhach').setAttribute("class", "border-blue-700 border-4");
-        document.getElementById('nhabep').setAttribute("class", "border-4 border-gray-400 p-2");
+        document.getElementById('phongkhach').setAttribute("class", "border-blue-700 border-4 rounded-lg");
+        document.getElementById('nhabep').setAttribute("class", "border-4 border-gray-400 p-2 rounded-lg");
     }
     else {
         document.getElementById('hiddenPhongKhach').style.display = "none";
         document.getElementById('hiddenAllDataPhongKhach').style.display = "none";
         document.getElementById('imageStayAtHome').style.display = "block";
-        document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-2");
+        document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-2 rounded-lg");
     }
 }
 // Load
@@ -861,13 +861,13 @@ function showNhaBep() {
         document.getElementById('hiddenPhongKhach').style.display = "none";
         document.getElementById('hiddenAllDataPhongKhach').style.display = "none";
         document.getElementById('imageStayAtHome').style.display = "none";
-        document.getElementById('nhabep').setAttribute("class", "border-blue-700 border-4");
-        document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-2");
+        document.getElementById('nhabep').setAttribute("class", "border-blue-700 border-4 rounded-lg");
+        document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-2 rounded-lg");
     }
     else {
         document.getElementById('hiddenNhaBep').style.display = "none";
         document.getElementById('imageStayAtHome').style.display = "block";
-        document.getElementById('nhabep').setAttribute("class", "border-4 border-gray-400 p-2");
+        document.getElementById('nhabep').setAttribute("class", "border-4 border-gray-400 p-2 rounded-lg");
     }
 }
 // Load
@@ -878,13 +878,13 @@ window.addEventListener('DOMContentLoaded', function () {
 var demgas = 0;
 window.feed = function (callback) {
     var tick = {};
-    var value;       
+    var value;
     firebase.database().ref().limitToFirst(parseInt(1)).on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
                     value = data.val().KhiGas;
-                    if (value > 700) {                        
+                    if (value > 700) {
                         console.log("Cảnh báo nguy hiểm: CÓ KHÍ GAS!!!")
                         var token = '1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw';
                         var chat_id = -1001288626996;
@@ -893,13 +893,13 @@ window.feed = function (callback) {
                         let api = new XMLHttpRequest();
                         api.open("GET", url, true);
                         //console.log(demgas)
-                        if(demgas >= 5 ){
+                        if (demgas >= 5) {
                             demgas = 0;
-                            api.send()                            
+                            api.send()
                         }
-                        demgas = demgas + 1;                        
+                        demgas = demgas + 1;
                     }
-                    else{
+                    else {
                         //console.log(demgas)
                         demgas = 0;
                     }
@@ -1025,3 +1025,4 @@ function drawGaugeGas() {
 window.addEventListener('DOMContentLoaded', function () {
     drawGaugeGas()
 })
+
