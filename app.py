@@ -1,3 +1,4 @@
+from crypt import methods
 import cv2, sys, numpy, os, time
 from flask import Flask, render_template, Response, request
 import requests, json
@@ -215,10 +216,14 @@ model = cv2.face.LBPHFaceRecognizer_create()
 model.train(images, labels)
 haar_cascade = cv2.CascadeClassifier(classifier)
 eye_cascade = cv2.CascadeClassifier(classeye)
-webcam = cv2.VideoCapture(0) #  0 to use webcam
+webcam = cv2.VideoCapture(1) #  0 to use webcam
+
 #szie video
-webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 180)
+# webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+# webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 180)
+# Khung hình
+webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
+webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 540)
 webcam.set(cv2.CAP_PROP_FPS, 25)
 
 countUnknown = ['a']

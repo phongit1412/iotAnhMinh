@@ -115,10 +115,14 @@
 
     <!-- Cursor custom mouse -->
     <div class="cursor"></div>
-    <div class="text-center">
+    <div class="flex flex-wrap">
         <!-- video -->
-        <img src="{{ url_for('video_feed') }}" class="mx-auto">
+        <div class="md:w-1/2 w-full">
+            <img src="{{ url_for('video_feed') }}" width="960px" height="540px" style="border: 1px solid black;">
+        </div>
+                
     </div>
+
     <!-- Footer -->
     <div class="footer text-center text-2xl bg-gradient-to-r from-purple-400 via-green-200 to-blue-300"
         style="font-family: 'Srisakdi', cursive;">
