@@ -1,4 +1,4 @@
-from crypt import methods
+#from crypt import methods
 import cv2, sys, numpy, os, time
 from flask import Flask, render_template, Response, request
 import requests, json
@@ -6,9 +6,9 @@ from telegram import *
 from telegram.ext import *
 from datetime import datetime
 from datetime import date
-import crypto
-import sys
-sys.modules['Crypto'] = crypto
+# import crypto
+# import sys
+# sys.modules['Crypto'] = crypto
 import pyrebase
 
 size = 2 # change this to 4 to speed up processing trade off is the accuracy

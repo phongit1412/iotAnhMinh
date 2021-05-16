@@ -1,22 +1,28 @@
 #include <ESP8266WiFi.h>
 #include <FirebaseArduino.h>
-#include <DHT.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 
-// Set these to run example.
 #define FIREBASE_HOST "minhpart2-7ddad-default-rtdb.firebaseio.com"
 #define FIREBASE_AUTH "2CqyAWeaVtkwpUsIQR4jrlpzOPQ1uOAyKb3L9gE8"
 #define WIFI_SSID "Tang Thuong"
 #define WIFI_PASSWORD "1234567890"
+String fireStatus = "";
 
-#define DHTPIN D2
-#define DHTTYPE DHT22
-DHT dht(DHTPIN, DHTTYPE);
+//Week Days
+String weekDays[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-void setup()
-{
-  Serial.begin(115200);
-  dht.begin();                                                  //reads dht sensor data
+//Month names
+//String months[12] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
+// Lấy h online từ ntpserver
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "pool.ntp.org");
+int led = D0;
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(led, OUTPUT);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to ");
   Serial.print(WIFI_SSID);
@@ -24,43 +30,53 @@ void setup()
     Serial.print(".");
     delay(500);
   }
-
   Serial.println();
-  Serial.print("Connected");
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());                               //prints local IP address
-  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);                 // connect to the firebase
-
+  Serial.print("Connected to ");
+  Serial.println(WIFI_SSID);
+  Serial.print("IP Address is : ");
+  Serial.println(WiFi.localIP());
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+  Firebase.setString("LED_STATUS", "OFF");
+  timeClient.begin();
+  // Múi giờ VN
+  timeClient.setTimeOffset(7 * 3600);
 }
 
-void loop()
-{
-  float h = dht.readHumidity();                                 // Read Humidity
-  float t = dht.readTemperature();                              // Read temperature
+void loop() {
+  timeClient.update();
+  unsigned long epochTime = timeClient.getEpochTime();
+  // Giờ Phút Giây
+  String formattedTime = timeClient.getFormattedTime();
+  Serial.print("Formatted Time: ");
+  Serial.println(formattedTime);
+  //Thứ Ngày Tháng Năm
+  String weekDay = weekDays[timeClient.getDay()]; // thứ
+  struct tm *ptm = gmtime ((time_t *)&epochTime);
+  int monthDay = ptm->tm_mday; // ngày
+  int currentMonth = ptm->tm_mon + 1; // tháng
+  int currentYear = ptm->tm_year + 1900; // năm
+  String currentDate = String(currentYear) + "-" + String(currentMonth) + "-" + String(monthDay); // năm tháng ngày thứ
+  Serial.println(currentDate);
 
-  if (isnan(h) || isnan(t))                                     // Checking sensor working
-  {
-    Serial.println(F("Failed to read from DHT sensor!"));
-    return;
+  thietBiDieuKhienPK();
+}
+
+void thietBiDieuKhienPK() {
+  fireStatus = Firebase.getString("LED_STATUS");
+  if (fireStatus == "ON") {
+    Serial.println("Led Turned ON");
+    digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(led, HIGH);
   }
-  Serial.print("Humidity: ");
-  Serial.print(h);
-  String fireHumid = String(h) + String("%");                   //Humidity integer to string conversion
-
-  Serial.print("%  Temperature: "); 
-  Serial.print(t);
-  Serial.println("°C ");
-  String fireTemp = String(t) + String("°C");                  //Temperature integer to string conversion
-  delay(5000);
-
-
-  Firebase.pushString("/DHT11/Humidity", fireHumid);            //setup path to send Humidity readings
-  Firebase.pushString("/DHT11/Temperature", fireTemp);         //setup path to send Temperature readings
-  if (Firebase.failed())
-  {
-
-    Serial.print("pushing /logs failed:");
-    Serial.println(Firebase.error());
-    return;
+  else if (fireStatus == "OFF") {
+    Serial.println("Led Turned OFF");
+    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(led, LOW);
   }
+  else {
+    Serial.println("Kiểm tra kết nối! Vui lòng gửi ON/OFF đến LED");
+  }
+}
+void thietBiDoPK(){
+  
 }
