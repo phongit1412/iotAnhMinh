@@ -20,9 +20,9 @@ var dd = String(today.getDate());
 var mm = String(today.getMonth() + 1);
 var yyyy = today.getFullYear();
 
-today = dd + '-' + mm + '-' + yyyy;
+today = yyyy + '-' + mm + '-' + dd;
 console.log(today)
-var todayFireBase = "PKThietBiDo" + "/" + today;
+var todayFireBase = "DuLieuDoPhongKhach" + "/" + today;
 
 // Nhiệt độ API
 function getWeather() {
@@ -133,18 +133,18 @@ function SelectDataPhongKhach() {
                     //var sensor = data.val().Name;
                     var humi = data.val().Humidity;
                     var temp = data.val().Temperature;
-                    var date = data.val().Date;
-                    //console.log(humi, date, temp)
-                    if (typeof (humi) !== "undefined" && typeof (temp) !== "undefined" && typeof (date) !== "undefined") {
-                        AddItemsToTable(date, humi, temp);
+                    var time = data.val().Time;
+                    //console.log(humi, time, temp)
+                    if (typeof (humi) !== "undefined" && typeof (temp) !== "undefined" && typeof (temp) !== "undefined") {
+                        AddItemsToTable(temp, humi, temp);
                     }
                 }
             );
         });
 }
 // Chèn data phòng khách vào html
-function AddItemsToTable(date, humi, temp) {
-    document.querySelector('#DatePK').innerHTML = `${date}`;
+function AddItemsToTable(time, humi, temp) {
+    document.querySelector('#TimePK').innerHTML = `${time}`;
     document.querySelector('#HumiPK').innerHTML = `${humi}`;
     document.querySelector('#TempPK').innerHTML = `${temp}`;
 }
@@ -215,17 +215,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
 // Kiểm tra LED đang ON hay OFF
 function loadonoffLED() {
-    firebase.database().ref().limitToFirst(parseInt(1)).on('value',
+    firebase.database().ref().on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
                     var led = data.val().LedStatus;
-                    //console.log(led)
-                    if (led == "on" || led == "ON" || led == "On" || led == "oN") {
-                        document.getElementById('toggleLED').checked = true;
-                    }
-                    else {
-                        document.getElementById('toggleLED').checked = false;
+                    if (typeof (led) !== "undefined") {
+                        //console.log(led)
+                        if (led == "on" || led == "ON" || led == "On" || led == "oN") {
+                            document.getElementById('toggleLED').checked = true;
+                        }
+                        else {
+                            document.getElementById('toggleLED').checked = false;
+                        }
                     }
                 }
             );
@@ -236,89 +238,50 @@ window.addEventListener('load', function () {
     loadonoffLED()
 })
 
-// Bật tắt Auto-DaikinAC
-function onoffAutoDaikinAC() {
-    var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
-    document.querySelector('#toggleAutoDaikinAC').addEventListener('click', () => {
-        if (document.getElementById('toggleAutoDaikinAC').checked == true) {
-            firebaseRef.update({
-                "autoDaikinAC": 1
-            })
-        }
-        else {
-            firebaseRef.update({
-                "autoDaikinAC": 0
-            })
-        }
-    })
-}
-//Load
-window.addEventListener('DOMContentLoaded', function () {
-    onoffAutoDaikinAC()
-})
-
-// Kiểm tra Bật tắt Auto-DaikinAC ON hay OFF
-function loadonoffAutoDaikinAC() {
-    var auto;
-    firebase.database().ref().limitToFirst(parseInt(1)).on('value',
-        function (snapshot) {
-            snapshot.forEach(
-                function (data) {
-                    auto = data.val().autoDaikinAC;
-                    //console.log(led)
-                }
-            );
-            if (auto == 1) {
-                document.getElementById('toggleAutoDaikinAC').checked = true;
-            }
-            else {
-                document.getElementById('toggleAutoDaikinAC').checked = false;
-            }
-        });
-}
-//Load
-window.addEventListener('DOMContentLoaded', function () {
-    loadonoffAutoDaikinAC()
-})
 
 // turn up and down daikin AC
 function turndownupDaikinAC() {
     var value;
+    var valueCheck;
     var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
-    firebase.database().ref().limitToFirst(parseInt(1)).once('value',
+    firebase.database().ref().once('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
                     value = data.val().NhietDoDieuChinh;
-                    document.querySelector('#nhietdoDaikin').innerHTML = `${value}`;
+                    if (typeof (value) !== "undefined") {
+                        valueCheck = value;
+                        document.querySelector('#nhietdoDaikin').innerHTML = `${valueCheck}`;
+                    }
                 }
             )
             document.querySelector('#decrement').addEventListener('click', () => {
-                value = value - 1;
-                if (value < 16) {
+                valueCheck = valueCheck - 1;
+                if (valueCheck < 16) {
                     document.getElementById('decrement').style.display = "none";
                 }
                 else {
+                    //console.log(value)
                     document.getElementById('decrement').style.display = "inline";
                     document.getElementById('increment').style.display = "inline";
                     firebaseRef.update({
-                        "NhietDoDieuChinh": value
+                        "NhietDoDieuChinh": valueCheck
                     })
-                    document.querySelector('#nhietdoDaikin').innerHTML = `${value}`;
+                    document.querySelector('#nhietdoDaikin').innerHTML = `${valueCheck}`;
                 }
             })
             document.querySelector('#increment').addEventListener('click', () => {
-                value = value + 1;
-                if (value > 30) {
+                valueCheck = valueCheck + 1;
+                if (valueCheck > 30) {
                     document.getElementById('increment').style.display = "none";
                 }
                 else {
                     document.getElementById('increment').style.display = "inline";
                     document.getElementById('decrement').style.display = "inline";
                     firebaseRef.update({
-                        "NhietDoDieuChinh": value
+                        "NhietDoDieuChinh": valueCheck
                     })
-                    document.querySelector('#nhietdoDaikin').innerHTML = `${value}`;
+                    document.querySelector('#nhietdoDaikin').innerHTML = `${valueCheck}`;
                 }
             })
         }
@@ -330,12 +293,14 @@ window.addEventListener('DOMContentLoaded', function () {
 })
 
 function LoadNhietDoDaikinACMulti() {
-    firebase.database().ref().limitToFirst(parseInt(1)).on('value',
+    firebase.database().ref().on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
                     var value = data.val().NhietDoDieuChinh;
-                    document.querySelector('#nhietdoDaikin').innerHTML = `${value}`;
+                    if (typeof (value) !== "undefined") {
+                        document.querySelector('#nhietdoDaikin').innerHTML = `${value}`;
+                    }
                 }
             )
         })
@@ -392,11 +357,12 @@ function loadfandaikinac() {
     var red = "border-2 border-red-200 xl:p-2"
     var opacity100 = "opacity-100 hover:opacity-100"
     var opacity50 = "opacity-50 hover:opacity-100"
-    firebase.database().ref().limitToFirst(1).on('value',
+    var fan;
+    firebase.database().ref().on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
-                    var fan = data.val().Fan;
+                    fan = data.val().Fan;
                     if (fan == "min" || fan == "MIN") {
                         document.getElementById('valuebtnFan1').setAttribute("class", opacity100)
                         document.getElementById('imgFan1').setAttribute("class", green)
@@ -508,7 +474,7 @@ function loadmodedaikinac() {
     var red = "border-2 border-red-200 xl:p-2"
     var opacity100 = "opacity-100 hover:opacity-100"
     var opacity50 = "opacity-50 hover:opacity-100"
-    firebase.database().ref().limitToFirst(1).on('value',
+    firebase.database().ref().on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
@@ -581,9 +547,8 @@ window.addEventListener('DOMContentLoaded', function () {
     loadmodedaikinac()
 })
 
-// LOAD Bật Tắt Daikin
+// Toggle Daikin On- Off
 function turnonoffDaikin() {
-    var value;
     var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
     document.querySelector('#toggleDaikinAC').addEventListener('click', () => {
         if (document.getElementById('toggleDaikinAC').checked == true) {
@@ -597,47 +562,57 @@ function turnonoffDaikin() {
             })
         }
     })
-    firebase.database().ref().limitToFirst(1).on('value',
+}
+//Load
+window.addEventListener('DOMContentLoaded', function () {
+    turnonoffDaikin()
+})
+
+// Load Toggle Trạng thái Bật - Tắt Máy lạnh
+function loadBatTatDaikin() {
+    var value;
+    firebase.database().ref().on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
                     value = data.val().DaikinStatus;
-                    //console.log(value)
+                    if (typeof (value) !== "undefined") {
+                        if (value == "ON" || value == "On" || value == "on" || value == "oN") {
+                            document.querySelector('#toggleDaikinAC').checked = true;
+                        }
+                        else {
+                            document.querySelector('#toggleDaikinAC').checked = false;
+                        }
+                    }
                 })
-            if (value == "ON" || value == "On" || value == "on" || value == "oN") {
-                document.querySelector(`#toggleDaikinAC`).checked = true;
-            }
-            else {
-                document.querySelector(`#toggleDaikinAC`).checked = false;
-            }
         })
 }
 //Load
-window.addEventListener('load', function () {
-    turnonoffDaikin()
+window.addEventListener('DOMContentLoaded', function () {
+    loadBatTatDaikin()
 })
 
 // Thống kê & lịch sử hoạt động sensor Phòng khách
 function viewmorePK() {
-    //var date, temp, humi, light, motion, statusdaikin;
-    firebase.database().ref(todayFireBase).limitToLast(35).once('value',
+    //var time, temp, humi, light, motion, statusdaikin;
+    firebase.database().ref(todayFireBase).limitToLast(50).once('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
-                    var date = data.val().Date;
+                    var time = data.val().Time;
                     var temp = data.val().Temperature;
                     var humi = data.val().Humidity;
                     var light = data.val().Light;
                     var motion = data.val().Motion;
-                    if (typeof (date) !== "undefined" && typeof (temp) !== "undefined" && typeof (humi) !== "undefined" && typeof (light) !== "undefined" && typeof (motion) !== "undefined") {
-                        Addalldatatable(date, temp, humi, light, motion);
+                    if (typeof (time) !== "undefined" && typeof (temp) !== "undefined" && typeof (humi) !== "undefined" && typeof (light) !== "undefined" && typeof (motion) !== "undefined") {
+                        Addalldatatable(time, temp, humi, light, motion);
                     }
                 }
             )
         })
 }
 
-function Addalldatatable(date, temp, humi, light, motion) {
+function Addalldatatable(time, temp, humi, light, motion) {
     var tbody = document.getElementById('tbodythongke');
     var trow = document.createElement('tr');
     trow.setAttribute("class", "flex w-full md:mb-4");
@@ -651,7 +626,7 @@ function Addalldatatable(date, temp, humi, light, motion) {
     td4.setAttribute("class", "p-1 w-full md:w-1/5")
     var td5 = document.createElement('td');
     td5.setAttribute("class", "p-1 w-full md:w-1/5")
-    td1.innerHTML = date;
+    td1.innerHTML = time;
     td2.innerHTML = temp;
     td3.innerHTML = humi;
     td4.innerHTML = light;
@@ -668,113 +643,6 @@ window.addEventListener('load', function () {
     viewmorePK()
 })
 
-//thu thập nhiệt độ độ ẩm để vẽ biểu đồ line chart
-var tempChart = [], humiChart = [], lightChart = [], motionChart = [];
-
-function drawGraphData() {
-    firebase.database().ref(todayFireBase).limitToLast(20).on('value',
-        function (snapshot) {
-            snapshot.forEach(
-                function (data) {
-                    //console.log(data.val());
-                    var humi = data.val().Humidity;
-                    var temp = data.val().Temperature;
-                    var anhsang = data.val().Light;
-                    var motion = data.val().Motion;
-                    if (typeof (humi) === "number" && typeof (temp) === "number" && typeof (anhsang) === "number" && typeof (motion) === "number") {
-                        humiChart.push(humi);
-                        tempChart.push(temp);
-                        lightChart.push(anhsang);
-                        motionChart.push(motion);
-                    }
-                }
-            );
-            drawGraph(humiChart, tempChart, lightChart, motionChart);
-            tempChart = [];
-            humiChart = [];
-            lightChart = [];
-            motionChart = [];
-        });
-}
-
-//Hàm vẽ line Chart
-
-function drawGraph(humiChart, tempChart, lightChart, motionChart) {
-    var labels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "temperature [°C]",
-                labelString: "°C",
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgb(255, 99, 132)',
-                fill: false,
-                data: tempChart,
-                yAxisID: "y-axis-temp",
-            },
-            {
-                label: "humidity [%RH]",
-                labelString: "hum",
-                borderColor: 'rgb(0, 99, 132)',
-                backgroundColor: 'rgb(0, 99, 132)',
-                fill: false,
-                data: humiChart,
-                yAxisID: "y-axis-temp",
-            },
-            {
-                label: "light [%]",
-                labelString: "light",
-                borderColor: 'rgb(145, 70, 65)',
-                backgroundColor: 'rgb(145, 70, 65)',
-                fill: false,
-                data: lightChart,
-                yAxisID: "y-axis-temp",
-            },
-            {
-                label: "motion [0-1]",
-                labelString: "motion",
-                borderColor: 'rgb(0, 21, 32)',
-                backgroundColor: 'rgb(0, 21, 32)',
-                fill: false,
-                data: motionChart,
-                yAxisID: "y-axis-temp",
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            hoverMode: 'nearest',
-            stacked: false,
-            title: {
-                display: true,
-                text: 'Biểu đổ 20 giá trị gần nhất RealTime'
-            },
-            scales: {
-                yAxes: [{
-                    type: "linear",
-                    display: true,
-                    position: "left",
-                    id: "y-axis-temp",
-                    ticks: {
-                        //bắt đầu tại 0
-                        //beginAtZero: true,
-                        suggestedMin: 20,
-                        suggestedMax: 100
-                    }
-                }]
-            }
-        }
-    });
-}
-// Load delay
-var delayInMilliseconds = 5000;
-setTimeout(window.addEventListener('load', function () {
-
-    drawGraphData();
-}), delayInMilliseconds)
 
 // Show all data Phòng khách
 function showAllThongTinPK() {
@@ -811,20 +679,46 @@ window.addEventListener('DOMContentLoaded', function () {
     showPhongKhach()
 })
 
+// Bật tắt Auto-DaikinAC
+function onoffAutoDaikinAC() {
+    var firebaseRef = firebase.database().ref('PKThietBiDieuKhien')
+    document.querySelector('#toggleAutoDaikinAC').addEventListener('click', () => {
+        if (document.getElementById('toggleAutoDaikinAC').checked == true) {
+            firebaseRef.update({
+                "autoDaikinAC": 1
+            })
+        }
+        else {
+            firebaseRef.update({
+                "autoDaikinAC": 0
+            })
+        }
 
-// Turn Off auto Daikin AC
-function OffAutoDaikinAC() {
-    firebase.database().ref().limitToFirst(parseInt(1)).on('value',
+    })
+}
+//Load
+window.addEventListener('DOMContentLoaded', function () {
+    onoffAutoDaikinAC()
+})
+
+// Turn On - Off Auto Daikin AC
+function loadOnOffDaikinAuto() {
+    var auto;
+    firebase.database().ref().on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
-                    var auto = data.val().autoDaikinAC;
-                    //console.log(led)
-                    if (auto == 1) {
-                        document.getElementById('offautoDaikin').style.display = "none";
-                    }
-                    else {
-                        document.getElementById('offautoDaikin').style.display = "block";
+                    auto = data.val().autoDaikinAC;
+                    if (typeof (auto) !== "undefined") {
+                        console.log(auto)
+                        if (auto == 1) {
+                            document.getElementById('toggleAutoDaikinAC').checked = true;
+                            document.getElementById('offautoDaikin').style.display = "none";
+                        }
+                        else {
+                            document.getElementById('toggleAutoDaikinAC').checked = false;
+                            document.getElementById('offautoDaikin').style.display = "block";
+                        }
                     }
                 }
             );
@@ -832,7 +726,7 @@ function OffAutoDaikinAC() {
 }
 // Load
 window.addEventListener('DOMContentLoaded', function () {
-    OffAutoDaikinAC()
+    loadOnOffDaikinAuto()
 })
 
 
@@ -1025,4 +919,3 @@ function drawGaugeGas() {
 window.addEventListener('DOMContentLoaded', function () {
     drawGaugeGas()
 })
-

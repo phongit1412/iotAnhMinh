@@ -9,15 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.1/tailwind.min.css"
         integrity="sha512-BAK6UB671tmfzrkeH1CacTvgHQ3aLAFnT2KsigdATsc5X7+3u42tb5vjmAoDiqtxphP5dNZ3cDygivTsGEJhGw=="
         crossorigin="anonymous" />
-    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js'></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/luxon@1.26.0"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0-beta.2"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" />
     <!-- call file css -->
     <link rel="stylesheet" href="../static/js css/style.css">
-    <!-- call file scss -->
-    <link rel="stylesheet" href="../static/js css/stylesheet.scss">
     <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png">
@@ -34,10 +37,6 @@
         }
 
         #hiddenPhongKhach {
-            display: none;
-        }
-
-        #offautoDaikin {
             display: none;
         }
 
@@ -203,7 +202,7 @@
                                             <th>Temp(°C)</th>
                                         </thead>
                                         <tbody class="font-bold text-center">
-                                            <td id="DatePK"
+                                            <td id="TimePK"
                                                 class="xl:text-3xl lg:text-3xl md:text-2xl sm:text-xl xs:text-xl text-gray-500">
                                             </td>
                                             <td id="HumiPK"
@@ -406,7 +405,7 @@
                                 </div>
                                 <div>
                                     <img src="../static/room/livingroomathome.jpg" alt="">
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                         <!-- Thông số nhà bếp -->
@@ -458,13 +457,13 @@
 
                                     </tbody>
                                 </table>
-                                <div class="chart-container" style="height: 400px;">
-                                    <canvas id="myChart"></canvas>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                </div>
+
+                                <canvas id="myChart"></canvas>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+
                             </div>
                         </div>
                     </div>
@@ -496,6 +495,31 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
+
+<script>
+    function onRefresh(chart) {
+        chart.data.datasets.forEach(function (dataset) {
+            dataset.data.push({
+                x: Date.now(),
+                y: Math.random()
+            });
+        });
+    }
+    
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: { datasets: [{ data: [] }, { data: [] }] },
+        options: {
+            scales: {
+                x: {
+                    type: 'realtime',
+                    realtime: { onRefresh: onRefresh }
+                }
+            }
+        }
+    });
+</script>
 
 <!-- Main script app -->
 <script id="MainScript" src="../static/js css/app.js"></script>
