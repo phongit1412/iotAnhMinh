@@ -148,7 +148,8 @@ void thietBiDoPK() {
 
     // Gửi dữ liệu ánh sáng đến firebase
     int light = analogRead(LIGHTPIN); // dùng chân anallog để đọc % độ sáng
-    Firebase.setInt(ThietBiDo + "Light", light/100);
+    light = (light*100)/1024;
+    Firebase.setInt(ThietBiDo + "Light", light);
 
     // Gửi tín hiệu phát hiện chuyển động và thân nhiệt
     Firebase.setInt(ThietBiDo + "Motion", motion_st);

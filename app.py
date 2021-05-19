@@ -268,7 +268,10 @@ def process():
             eyes = eye_cascade.detectMultiScale(face)
 
             for(ex, ey, ew, eh) in eyes:
-                cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+
+                # Quét vùng mắt
+                #cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+
                 face_resize = cv2.resize(face, (im_width, im_height))
                 start =(x, y)
                 end =(x + w, y + h)

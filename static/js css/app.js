@@ -13,16 +13,30 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
+// Hôm nay
 var today = new Date();
-// var dd = String(today.getDate()).padStart(2, '0');
 var dd = String(today.getDate());
-//var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 var mm = String(today.getMonth() + 1);
 var yyyy = today.getFullYear();
 
+// Ngày hôm qua
+var yesterday01 = new Date(new Date().setDate(new Date().getDate() - 1));
+var yesdd01 = String(yesterday01.getDate());
+// Ngày hôm kia
+var yesterday02 = new Date(new Date().setDate(new Date().getDate() - 2));
+var yesdd02 = String(yesterday02.getDate());
+
 today = yyyy + '-' + mm + '-' + dd;
+yesterday01 = yyyy + '-' + mm + '-' + yesdd01;
+yesterday02 = yyyy + '-' + mm + '-' + yesdd02;
+
 console.log(today)
+// console.log(yesterday01)
+// console.log(yesterday02)
+
 var todayFireBase = "DuLieuDoPhongKhach" + "/" + today;
+var yesterday01FireBase = "DuLieuDoPhongKhach" + "/" + yesterday01;
+var yesterday02FireBase = "DuLieuDoPhongKhach" + "/" + yesterday02;
 
 // Nhiệt độ API
 function getWeather() {
@@ -126,7 +140,7 @@ window.addEventListener('load', function () {
 
 // Lấy Data Phòng Khách
 function SelectDataPhongKhach() {
-    firebase.database().ref(todayFireBase).limitToLast(1).on('value',
+    firebase.database().ref(todayFireBase).on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
@@ -135,8 +149,8 @@ function SelectDataPhongKhach() {
                     var temp = data.val().Temperature;
                     var time = data.val().Time;
                     //console.log(humi, time, temp)
-                    if (typeof (humi) !== "undefined" && typeof (temp) !== "undefined" && typeof (temp) !== "undefined") {
-                        AddItemsToTable(temp, humi, temp);
+                    if (typeof (humi) !== "undefined" && typeof (temp) !== "undefined" && typeof (time) !== "undefined") {
+                        AddItemsToTable(time, humi, temp);
                     }
                 }
             );
@@ -158,7 +172,7 @@ var arrayTempMinMax = [], arrayHumiMinMax = [];
 // Tìm giá trị nhỏ nhất và lớn nhất
 function SelectMinMaxTempHumiPhongKhach() {
     var a, b, c, d;
-    firebase.database().ref(todayFireBase).limitToLast(12).on('value',
+    firebase.database().ref(todayFireBase).limitToLast(30).on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
@@ -592,58 +606,6 @@ window.addEventListener('DOMContentLoaded', function () {
     loadBatTatDaikin()
 })
 
-// Thống kê & lịch sử hoạt động sensor Phòng khách
-function viewmorePK() {
-    //var time, temp, humi, light, motion, statusdaikin;
-    firebase.database().ref(todayFireBase).limitToLast(50).once('value',
-        function (snapshot) {
-            snapshot.forEach(
-                function (data) {
-                    var time = data.val().Time;
-                    var temp = data.val().Temperature;
-                    var humi = data.val().Humidity;
-                    var light = data.val().Light;
-                    var motion = data.val().Motion;
-                    if (typeof (time) !== "undefined" && typeof (temp) !== "undefined" && typeof (humi) !== "undefined" && typeof (light) !== "undefined" && typeof (motion) !== "undefined") {
-                        Addalldatatable(time, temp, humi, light, motion);
-                    }
-                }
-            )
-        })
-}
-
-function Addalldatatable(time, temp, humi, light, motion) {
-    var tbody = document.getElementById('tbodythongke');
-    var trow = document.createElement('tr');
-    trow.setAttribute("class", "flex w-full md:mb-4");
-    var td1 = document.createElement('td');
-    td1.setAttribute("class", "p-1 w-full md:w-1/5")
-    var td2 = document.createElement('td');
-    td2.setAttribute("class", "p-1 w-full md:w-1/5")
-    var td3 = document.createElement('t');
-    td3.setAttribute("class", "p-1 w-full md:w-1/5")
-    var td4 = document.createElement('td');
-    td4.setAttribute("class", "p-1 w-full md:w-1/5")
-    var td5 = document.createElement('td');
-    td5.setAttribute("class", "p-1 w-full md:w-1/5")
-    td1.innerHTML = time;
-    td2.innerHTML = temp;
-    td3.innerHTML = humi;
-    td4.innerHTML = light;
-    td5.innerHTML = motion;
-    trow.appendChild(td1);
-    trow.appendChild(td2);
-    trow.appendChild(td3);
-    trow.appendChild(td4);
-    trow.appendChild(td5);
-    tbody.appendChild(trow);
-}
-// Load
-window.addEventListener('load', function () {
-    viewmorePK()
-})
-
-
 // Show all data Phòng khách
 function showAllThongTinPK() {
     if (document.getElementById('hiddenAllDataPhongKhach').style.display === "none") {
@@ -657,6 +619,195 @@ function showAllThongTinPK() {
 window.addEventListener('DOMContentLoaded', function () {
     showAllThongTinPK()
 })
+
+// Thống kê & lịch sử hoạt động sensor Phòng khách
+function viewmorePK() {
+    //var time, temp, humi, light, motion, statusdaikin;
+    firebase.database().ref(todayFireBase).limitToLast(50).once('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    var time = data.val().Time;
+                    var temp = data.val().Temperature;
+                    var humi = data.val().Humidity;
+                    var light = data.val().Light;
+                    var motion = data.val().Motion;
+                    if (typeof (time) !== "undefined" && typeof (temp) !== "undefined" && typeof (humi) !== "undefined" && typeof (light) !== "undefined") {
+                        Addalldatatable(time, temp, humi, light);
+                    }
+                }
+            )
+        })
+}
+
+function Addalldatatable(time, temp, humi, light) {
+    var tbody = document.getElementById('tbodythongke');
+    var trow = document.createElement('tr');
+    trow.setAttribute("class", "flex w-full md:mb-4");
+    var td1 = document.createElement('td');
+    td1.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td2 = document.createElement('td');
+    td2.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td3 = document.createElement('td');
+    td3.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td4 = document.createElement('td');
+    td4.setAttribute("class", "p-2 w-full md:w-1/4")
+    td1.innerHTML = time;
+    td2.innerHTML = temp;
+    td3.innerHTML = humi;
+    td4.innerHTML = light;
+    trow.appendChild(td1);
+    trow.appendChild(td2);
+    trow.appendChild(td3);
+    trow.appendChild(td4);
+    tbody.appendChild(trow);
+}
+// Load
+window.addEventListener('load', function () {
+    viewmorePK()
+})
+
+
+////////////////////////////////////////////////////////////////////////
+
+// Thống kê & lịch sử hoạt động sensor Phòng khách hôm qua
+function viewmorePKYesterday01() {
+    //var time, temp, humi, light, motion, statusdaikin;
+    firebase.database().ref(yesterday01FireBase).once('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    var time = data.val().Time;
+                    var temp = data.val().Temperature;
+                    var humi = data.val().Humidity;
+                    var light = data.val().Light;
+                    if (typeof (time) !== "undefined" && typeof (temp) !== "undefined" && typeof (humi) !== "undefined" && typeof (light) !== "undefined") {
+                        AddalldatatableYesterday01(time, temp, humi, light);
+                    }
+                }
+            )
+        })
+}
+
+function AddalldatatableYesterday01(time, temp, humi, light) {
+    var tbody = document.getElementById('tbodythongkeYesterday01');
+    var trow = document.createElement('tr');
+    trow.setAttribute("class", "flex w-full md:mb-4");
+    var td1 = document.createElement('td');
+    td1.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td2 = document.createElement('td');
+    td2.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td3 = document.createElement('td');
+    td3.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td4 = document.createElement('td');
+    td4.setAttribute("class", "p-2 w-full md:w-1/4")
+    td1.innerHTML = time;
+    td2.innerHTML = temp;
+    td3.innerHTML = humi;
+    td4.innerHTML = light;
+    trow.appendChild(td1);
+    trow.appendChild(td2);
+    trow.appendChild(td3);
+    trow.appendChild(td4);
+    tbody.appendChild(trow);
+}
+// Load
+window.addEventListener('load', function () {
+    viewmorePKYesterday01()
+})
+
+
+///////////////////////////////////////////////////////////////////////
+
+// Thống kê & lịch sử hoạt động sensor Phòng khách hôm kia
+function viewmorePKYesterday02() {
+    //var time, temp, humi, light, motion, statusdaikin;
+    firebase.database().ref(yesterday02FireBase).once('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    var time = data.val().Time;
+                    var temp = data.val().Temperature;
+                    var humi = data.val().Humidity;
+                    var light = data.val().Light;
+                    if (typeof (time) !== "undefined" && typeof (temp) !== "undefined" && typeof (humi) !== "undefined" && typeof (light) !== "undefined") {
+                        AddalldatatableYesterday02(time, temp, humi, light);
+                    }
+                }
+            )
+        })
+}
+
+function AddalldatatableYesterday02(time, temp, humi, light) {
+    var tbody = document.getElementById('tbodythongkeYesterday02');
+    var trow = document.createElement('tr');
+    trow.setAttribute("class", "flex w-full md:mb-4");
+    var td1 = document.createElement('td');
+    td1.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td2 = document.createElement('td');
+    td2.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td3 = document.createElement('td');
+    td3.setAttribute("class", "p-2 w-full md:w-1/4")
+    var td4 = document.createElement('td');
+    td4.setAttribute("class", "p-2 w-full md:w-1/4")
+    td1.innerHTML = time;
+    td2.innerHTML = temp;
+    td3.innerHTML = humi;
+    td4.innerHTML = light;
+    trow.appendChild(td1);
+    trow.appendChild(td2);
+    trow.appendChild(td3);
+    trow.appendChild(td4);
+    tbody.appendChild(trow);
+}
+// Load
+window.addEventListener('load', function () {
+    viewmorePKYesterday02()
+})
+
+///////////////////////////////////////////////////////////////////////
+
+// Xử lý các button thống kê phòng khách
+function btnHomKia() {
+    document.getElementById('tblDataPK3').style.display = "block";
+    document.getElementById('tblDataPK1').style.display = "none";
+    document.getElementById('tblDataPK2').style.display = "none";
+    document.getElementById('buttonhomkia').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")    
+    document.getElementById('buttonhomnay').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
+    document.getElementById('buttonhomqua').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
+    //
+    document.getElementById('exportexcel3').style.display = "block";
+    document.getElementById('exportexcel1').style.display = "none";
+    document.getElementById('exportexcel2').style.display = "none";
+}
+
+function btnHomQua() {
+    document.getElementById('tblDataPK2').style.display = "block";
+    document.getElementById('tblDataPK1').style.display = "none";
+    document.getElementById('tblDataPK3').style.display = "none";
+    document.getElementById('buttonhomqua').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")    
+    document.getElementById('buttonhomnay').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
+    document.getElementById('buttonhomkia').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
+    //
+    document.getElementById('exportexcel2').style.display = "block";
+    document.getElementById('exportexcel1').style.display = "none";
+    document.getElementById('exportexcel3').style.display = "none";
+}
+function btnHomNay() {
+    document.getElementById('tblDataPK1').style.display = "block";
+    document.getElementById('tblDataPK2').style.display = "none";
+    document.getElementById('tblDataPK3').style.display = "none";
+    document.getElementById('buttonhomnay').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")    
+    document.getElementById('buttonhomkia').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
+    document.getElementById('buttonhomqua').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
+    //
+    document.getElementById('exportexcel1').style.display = "block";    
+    document.getElementById('exportexcel2').style.display = "none";
+    document.getElementById('exportexcel3').style.display = "none";
+}
+
+//////////////////////////////////////////////////////////////////////
+
 
 // Show Phòng khach
 function showPhongKhach() {
@@ -710,7 +861,7 @@ function loadOnOffDaikinAuto() {
                 function (data) {
                     auto = data.val().autoDaikinAC;
                     if (typeof (auto) !== "undefined") {
-                        console.log(auto)
+                        //console.log(auto)
                         if (auto == 1) {
                             document.getElementById('toggleAutoDaikinAC').checked = true;
                             document.getElementById('offautoDaikin').style.display = "none";
@@ -755,7 +906,7 @@ function showNhaBep() {
         document.getElementById('hiddenPhongKhach').style.display = "none";
         document.getElementById('hiddenAllDataPhongKhach').style.display = "none";
         document.getElementById('imageStayAtHome').style.display = "none";
-        document.getElementById('nhabep').setAttribute("class", "border-blue-700 border-4 rounded-lg");
+        document.getElementById('nhabep').setAttribute("class", "border-green-700 border-4 rounded-lg");
         document.getElementById('phongkhach').setAttribute("class", "border-4 border-gray-400 p-2 rounded-lg");
     }
     else {
@@ -773,34 +924,39 @@ var demgas = 0;
 window.feed = function (callback) {
     var tick = {};
     var value;
-    firebase.database().ref().limitToFirst(parseInt(1)).on('value',
+    var valueCheck;
+    firebase.database().ref().on('value',
         function (snapshot) {
             snapshot.forEach(
                 function (data) {
                     value = data.val().KhiGas;
-                    if (value > 700) {
-                        console.log("Cảnh báo nguy hiểm: CÓ KHÍ GAS!!!")
-                        var token = '1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw';
-                        var chat_id = -1001288626996;
-                        var my_text = "Cảnh báo nguy hiểm: CÓ KHÍ GAS!!!";
-                        var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${my_text}&parse_mode=html`;
-                        let api = new XMLHttpRequest();
-                        api.open("GET", url, true);
-                        //console.log(demgas)
-                        if (demgas >= 5) {
-                            demgas = 0;
-                            api.send()
+                    if (typeof (value) !== "undefined" && value != 0) {
+                        valueCheck = value;
+                        //console.log(valueCheck)
+                        if (valueCheck > 700) {
+                            console.log("Cảnh báo nguy hiểm: CÓ KHÍ GAS!!!")
+                            var token = '1616356914:AAHPClJkMWIpiDPpwMrYRumtdiannDAKMIw';
+                            var chat_id = -1001288626996;
+                            var my_text = "Cảnh báo nguy hiểm: CÓ KHÍ GAS!!!";
+                            var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${my_text}&parse_mode=html`;
+                            let api = new XMLHttpRequest();
+                            api.open("GET", url, true);
+                            //console.log(demgas)
+                            if (demgas >= 5) {
+                                demgas = 0;
+                                api.send()
+                            }
+                            demgas = demgas + 1;
                         }
-                        demgas = demgas + 1;
-                    }
-                    else {
-                        //console.log(demgas)
-                        demgas = 0;
+                        else {
+                            //console.log(demgas)
+                            demgas = 0;
+                        }
                     }
                 }
             )
         })
-    tick.plot0 = value;
+    tick.plot0 = valueCheck;
     callback(JSON.stringify(tick));
 
 };
@@ -866,7 +1022,7 @@ function drawGaugeGas() {
                     offsetX: 15
                 }]
             },
-            labels: ['300', '', '', '', '', '', '580', '640', '700', '750', '', '850'],
+            labels: ['300', '', '', '', '', '', '600', '640', '700', '750', '', '850'],
             ring: {
                 size: 50,
                 rules: [{
@@ -919,3 +1075,339 @@ function drawGaugeGas() {
 window.addEventListener('DOMContentLoaded', function () {
     drawGaugeGas()
 })
+
+
+// DANH SÁCH BIỂU ĐỒ PHÒNG KHÁCH
+function bieudoNHIETDO() {
+    var datatemp;
+    firebase.database().ref(todayFireBase).on('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    var temp = data.val().Temperature;
+                    if (typeof (temp) !== "undefined") {
+                        datatemp = temp;
+                    }
+                }
+            );
+        });
+    function onRefresh(chart) {
+        chart.data.datasets.forEach(function (dataset) {
+            dataset.data.push({
+                x: Date.now(),
+                y: datatemp
+
+            });
+        });
+    }
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var chart = new Chart(ctx, {
+
+        type: 'line',
+        data: {
+            datasets: [{
+                label: "temperature [°C]",
+                labelString: "°C",
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 179, 179, 0.5)',
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                data: []
+            }]
+        },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true,
+            hoverMode: 'nearest',
+            scales: {
+                x: {
+                    type: 'realtime',
+                    realtime: {
+                        duration: 10000,
+                        refresh: 2800,
+                        delay: 2800,
+                        onRefresh: onRefresh
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    title: {
+                        display: true,
+                        text: '[°C]'
+                    },
+                    min: 22,
+                    max: 40
+                }
+            },
+            interaction: {
+                intersect: false
+            },
+            plugins: {
+                datalabels: {
+                    backgroundColor: function (context) {
+                        return context.dataset.backgroundColor;
+                    },
+                    padding: 4,
+                    borderRadius: 4,
+                    clip: true,
+                    color: 'white',
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value) {
+                        return value.y;
+                    }
+                }
+            }
+        }
+    });
+}
+// Load
+window.addEventListener('DOMContentLoaded', function () {
+    bieudoNHIETDO();
+})
+
+function bieudoDOAM() {
+    var datahumi;
+    firebase.database().ref(todayFireBase).on('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    var humi = data.val().Humidity;
+                    if (typeof (humi) !== "undefined") {
+                        datahumi = humi;
+                    }
+                }
+            );
+        });
+    function onRefresh(chart) {
+        chart.data.datasets.forEach(function (dataset) {
+            dataset.data.push({
+                x: Date.now(),
+                y: datahumi
+
+            });
+        });
+    }
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var chart = new Chart(ctx, {
+
+        type: 'line',
+        data: {
+            datasets: [{
+                label: "humidity [%RH]",
+                labelString: "%RH",
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                data: []
+            }]
+        },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true,
+            hoverMode: 'nearest',
+            scales: {
+                x: {
+                    type: 'realtime',
+                    realtime: {
+                        duration: 10000,
+                        refresh: 2800,
+                        delay: 2800,
+                        onRefresh: onRefresh
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    title: {
+                        display: true,
+                        text: '[%RH]'
+                    },
+                    min: 40,
+                    max: 80
+                }
+            },
+            interaction: {
+                intersect: false
+            },
+            plugins: {
+                datalabels: {
+                    backgroundColor: function (context) {
+                        return context.dataset.backgroundColor;
+                    },
+                    padding: 4,
+                    borderRadius: 4,
+                    clip: true,
+                    color: 'white',
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value) {
+                        return value.y;
+                    }
+                }
+            }
+        }
+    });
+}
+// Load
+window.addEventListener('DOMContentLoaded', function () {
+    bieudoDOAM();
+})
+
+
+function bieudoANHSANG() {
+    var datalight;
+    firebase.database().ref(todayFireBase).on('value',
+        function (snapshot) {
+            snapshot.forEach(
+                function (data) {
+                    var light = data.val().Light;
+                    if (typeof (light) !== "undefined") {
+                        datalight = light;
+                    }
+                }
+            );
+        });
+    function onRefresh(chart) {
+        chart.data.datasets.forEach(function (dataset) {
+            dataset.data.push({
+                x: Date.now(),
+                y: datalight
+
+            });
+        });
+    }
+    var ctx = document.getElementById('myChart3').getContext('2d');
+    var chart = new Chart(ctx, {
+
+        type: 'line',
+        data: {
+            datasets: [{
+                label: "light [%]",
+                labelString: "%",
+                borderColor: 'rgb(255, 205, 86)',
+                backgroundColor: 'rgba(255, 255, 153, 0.5)',
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                data: []
+            }]
+        },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true,
+            hoverMode: 'nearest',
+            scales: {
+                x: {
+                    type: 'realtime',
+                    realtime: {
+                        duration: 10000,
+                        refresh: 2800,
+                        delay: 2800,
+                        onRefresh: onRefresh
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    title: {
+                        display: true,
+                        text: '[%]'
+                    },
+                    max: 103,
+                    min: 0
+                }
+            },
+            interaction: {
+                intersect: false
+            },
+            plugins: {
+                datalabels: {
+                    backgroundColor: function (context) {
+                        return context.dataset.backgroundColor;
+                    },
+                    padding: 4,
+                    borderRadius: 4,
+                    clip: true,
+                    color: 'white',
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value) {
+                        return value.y;
+                    }
+                }
+            }
+        }
+    });
+}
+// Load
+window.addEventListener('DOMContentLoaded', function () {
+    bieudoANHSANG();
+})
+
+/////////////////////////////////////////////////////////////////
+
+//BUTTON BIỂU ĐỒ CHARTJS
+function bieudo1() {
+    document.getElementById('myChart1').style.display = "block";
+    document.getElementById('myChart2').style.display = "none";
+    document.getElementById('myChart3').style.display = "none";
+}
+window.addEventListener('DOMContentLoaded', function () {
+    bieudo1();
+})
+
+function bieudo2() {
+    document.getElementById('myChart2').style.display = "block";
+    document.getElementById('myChart1').style.display = "none";
+    document.getElementById('myChart3').style.display = "none";
+}
+window.addEventListener('DOMContentLoaded', function () {
+    bieudo2();
+})
+
+function bieudo3() {
+    document.getElementById('myChart3').style.display = "block";
+    document.getElementById('myChart1').style.display = "none";
+    document.getElementById('myChart2').style.display = "none";
+}
+window.addEventListener('DOMContentLoaded', function () {
+    bieudo3();
+})
+
+///////////////////////////////////////////////////////////////////
+
+function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    filename = filename?filename+'.xls':'excel_data.xls';
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        // thông báo tải xuống cho người dùng
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting tên file
+        downloadLink.download = filename;
+        
+        // bấm để download
+        downloadLink.click();
+    }
+}
+
+///////////////////////////////////////////////////////////////////

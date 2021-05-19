@@ -10,10 +10,11 @@
         integrity="sha512-BAK6UB671tmfzrkeH1CacTvgHQ3aLAFnT2KsigdATsc5X7+3u42tb5vjmAoDiqtxphP5dNZ3cDygivTsGEJhGw=="
         crossorigin="anonymous" />
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/luxon@1.26.0"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0-beta.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@1.26.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-beta.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0-beta.2"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -31,6 +32,7 @@
     </style>
     <!-- Biểu đồ nồng độ gas -->
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
     <style>
         #hiddenAllDataPhongKhach {
             display: none;
@@ -57,6 +59,22 @@
         }
 
         .zc-ref {
+            display: none;
+        }
+
+        #myChart1,
+        #myChart2,
+        #myChart3 {
+            display: none;
+        }
+
+        #tblDataPK2,
+        #tblDataPK3 {
+            display: none;
+        }
+
+        #exportexcel2,
+        #exportexcel3 {
             display: none;
         }
     </style>
@@ -193,7 +211,7 @@
                                         id="showAllThongTinPK"
                                         class="hover:text-green-300 text-blue-700 font-extrabold">View more..<i
                                             class="fas fa-chart-bar"></i></a></div>
-                                <table class="relative w-full border table-fixed">
+                                <table class="relative w-full table-fixed">
                                     <tr>
                                         <thead class="text-pink-500 text-2xl">
                                             <th>Time <i class="far fa-calendar-check"></i>
@@ -220,17 +238,16 @@
                                     <div></div>
                                     <div class="text-green-500">Min <i class="fas fa-temperature-low"></i></div>
                                     <div class="text-yellow-500">Max <i class="fas fa-temperature-high"></i></div>
-                                    <div class="text-blue-500">Temp</div>
-                                    <div id="tempMin" class="text-blue-400"></div>
-                                    <div id="tempMax" class="text-blue-700"></div>
-                                    <div class="text-red-500">Humidity</div>
-                                    <div id="humiMin" class="text-red-400"></div>
-                                    <div id="humiMax" class="text-red-700"></div>
+                                    <div class="text-red-500">Temp</div>
+                                    <div id="tempMin" class="text-red-400"></div>
+                                    <div id="tempMax" class="text-red-700"></div>
+                                    <div class="text-blue-500">Humidity</div>
+                                    <div id="humiMin" class="text-blue-400"></div>
+                                    <div id="humiMax" class="text-blue-700"></div>
                                 </div>
                                 <br>
                                 <div class="flex flex-wrap text-center">
-                                    <div class="w-full md:w-1/2 text-gray-700 font-bold xl:text-2xl"
-                                        style="font-family: 'Sedgwick Ave', cursive;">Bật-Tắt đèn LED <i
+                                    <div class="w-full md:w-1/2 text-gray-700 font-bold xl:text-2xl">Bật-Tắt đèn LED <i
                                             class="far fa-lightbulb"></i></div>
                                     <div class="w-full md:w-1/2">
                                         <!-- Toggle LED -->
@@ -253,8 +270,7 @@
                                 </div>
                                 <br>
                                 <div class="flex flex-wrap text-center">
-                                    <div class="w-full md:w-1/2 text-gray-700 font-bold xl:text-2xl"
-                                        style="font-family: 'Sedgwick Ave', cursive;">Chế độ tự động
+                                    <div class="w-full md:w-1/2 text-gray-700 font-bold xl:text-2xl">Chế độ tự động
                                         DaikinAC
                                     </div>
                                     <div class="w-full md:w-1/2">
@@ -337,10 +353,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <br>
+                                        <div class="xl:w-0 w-auto">
+                                            <div style="height: 85px;"></div>
+                                        </div>
                                         <div class="md:w-1/2 w-full">
                                             <div class="flex flex-wrap">
                                                 <div class="w-1/2 md:w-1/2 text-center">
@@ -395,16 +410,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="xl:w-0 w-auto">
+                                            <div style="height: 190px;"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- Image living room at home -->
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <img src="../static/room/AC.gif" alt="">
+                                    <img src="../static/room/AC.gif" alt="" class=" xl:w-auto w-0">
                                 </div>
                                 <div>
-                                    <img src="../static/room/livingroomathome.jpg" alt="">
+                                    <img src="../static/room/livingroomathome.jpg" alt="" class=" xl:w-auto w-0">
                                 </div>
                             </div>
                         </div>
@@ -440,50 +458,116 @@
                                     style="font-family: 'Lobster', cursive;">
                                     Thống kê dữ
                                     liệu phòng khách</div>
-                                <table class="text-center w-full mx-3">
-                                    <thead class="bg-red-300 flex text-white w-full">
+                                <table class="text-center w-full mx-3 h-3/4" id="tblDataPK1">
+                                    <thead class="bg-purple-300 flex text-white w-full">
                                         <tr class="m-2 w-full flex">
-                                            <th class="p-1 w-full md:w-1/5">Time</th>
-                                            <th class="p-1 w-full md:w-1/5">Temp</th>
-                                            <th class="p-1 w-full md:w-1/5">Humi</th>
-                                            <th class="p-1 w-full md:w-1/5">Light</th>
-                                            <th class="p-1 w-full md:w-1/5">Motion</th>
+                                            <th class="p-1 w-full md:w-1/4">Time</th>
+                                            <th class="p-1 w-full md:w-1/4">Temp</th>
+                                            <th class="p-1 w-full md:w-1/4">Humi</th>
+                                            <th class="p-1 w-full md:w-1/4">Light</th>
                                             <!-- <th class="p-2 w-1/6">Status Daikin</th> -->
                                         </tr>
                                     </thead>
                                     <tbody id="tbodythongke"
                                         class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full"
-                                        style="height: 30vh;">
+                                        style="height: 20vh;">
+                                    </tbody>
 
+
+                                </table>
+                                <!-- Thống kê dữ liệu ngày hôm qua -->
+                                <table class="text-center w-full mx-3 h-3/4" id="tblDataPK2">
+                                    <thead class="bg-purple-300 flex text-white w-full">
+                                        <tr class="m-2 w-full flex">
+                                            <th class="p-1 w-full md:w-1/4">Time</th>
+                                            <th class="p-1 w-full md:w-1/4">Temp</th>
+                                            <th class="p-1 w-full md:w-1/4">Humi</th>
+                                            <th class="p-1 w-full md:w-1/4">Light</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodythongkeYesterday01"
+                                        class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full"
+                                        style="height: 20vh;">
                                     </tbody>
                                 </table>
+                                <!-- Thống kê dữ liệu ngày hôm kia -->
+                                <table class="text-center w-full mx-3 h-3/4" id="tblDataPK3">
+                                    <thead class="bg-purple-300 flex text-white w-full">
+                                        <tr class="m-2 w-full flex">
+                                            <th class="p-1 w-full md:w-1/4">Time</th>
+                                            <th class="p-1 w-full md:w-1/4">Temp</th>
+                                            <th class="p-1 w-full md:w-1/4">Humi</th>
+                                            <th class="p-1 w-full md:w-1/4">Light</th>
 
-                                <canvas id="myChart"></canvas>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodythongkeYesterday02"
+                                        class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full"
+                                        style="height: 20vh;">
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <div class="grid gap-2 grid-cols-4 w-full mt-2">
+                                    <div class="mx-auto"><button class="bg-blue-300 font-bold py-2 px-4 rounded"
+                                            onclick="btnHomKia()" id="buttonhomkia">Hôm
+                                            kia</button></div>
+                                    <div class="mx-auto"><button class="bg-blue-300 font-bold py-2 px-4 rounded"
+                                            onclick="btnHomQua()" id="buttonhomqua">Hôm
+                                            qua</button></div>
+                                    <div class="mx-auto"><button class="bg-blue-300 font-bold py-2 px-4 rounded"
+                                            onclick="btnHomNay()" id="buttonhomnay">Hôm
+                                            nay</button></div>
+                                    <div class="mx-auto">
+                                        <div><button id="exportexcel1"
+                                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                                                onclick="exportTableToExcel('tblDataPK1', 'thongke-Ngay-Thang-Nam' )">
+                                                <span>Save
+                                                    Excel</button></div>
+                                        <div><button id="exportexcel2"
+                                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                                                onclick="exportTableToExcel('tblDataPK2', 'thongke-Ngay-Thang-Nam' )">
+                                                <span>Save
+                                                    Excel</button></div>
+                                        <div><button id="exportexcel3"
+                                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                                                onclick="exportTableToExcel('tblDataPK3', 'thongke-Ngay-Thang-Nam' )">
+                                                <span>Save
+                                                    Excel</button></div>
+                                    </div>
+                                </div>
                                 <br>
-                                <br>
-                                <br>
-                                <br>
+                                <!-- Biểu đồ -->
+                                <canvas id="myChart1"></canvas>
+                                <canvas id="myChart2"></canvas>
+                                <canvas id="myChart3"></canvas>
 
+                                <div class="grid gap-2 grid-cols-3 w-full mb-32">
+                                    <div class="mx-auto">
+                                        <button id="btnbieudo1"
+                                            class="w-36 py-2 border border-black bg-red-300 font-bold hover:text-white hover:border-4 hover:border-white rounded-lg"
+                                            onclick="bieudo1()">Nhiệt độ</button>
+                                    </div>
+                                    <div class="mx-auto">
+                                        <button
+                                            class="w-36 py-2 border border-black bg-blue-300 font-bold hover:text-white hover:border-4 hover:border-white rounded-lg"
+                                            onclick="bieudo2()">Độ ẩm</button>
+                                    </div>
+                                    <div class="mx-auto">
+                                        <button
+                                            class="w-36 py-2 border border-black bg-yellow-300 font-bold hover:text-white hover:border-4 hover:border-white rounded-lg"
+                                            onclick="bieudo3()">Ánh sáng</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Bubbles -->
-        <div class="bubbles">
-            <img src="../static/icon/bubble.png" alt="">
-            <img src="../static/icon/bubble.png" alt="">
-            <img src="../static/icon/bubble.png" alt="">
-            <img src="../static/icon/bubble.png" alt="">
-            <img src="../static/icon/bubble.png" alt="">
-            <img src="../static/icon/bubble.png" alt="">
-            <img src="../static/icon/bubble.png" alt="">
-        </div>
         <!-- Footer -->
-        <div class="footer text-center text-2xl bg-gradient-to-r from-purple-400 via-green-200 to-blue-300"
-            style="font-family: 'Srisakdi', cursive;">
-            <p class="mt-15">Ng~ Cao Anh Minh - Ng~ Thị Hậu</p>
+        <div class="footer text-center text-2xl bg-gradient-to-r from-purple-400 via-green-200 to-blue-300">
+            <p class="mt-15">Ng Cao Anh Minh - Ng Thị Hậu</p>
         </div>
     </div>
 </body>
@@ -495,31 +579,6 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
-
-<script>
-    function onRefresh(chart) {
-        chart.data.datasets.forEach(function (dataset) {
-            dataset.data.push({
-                x: Date.now(),
-                y: Math.random()
-            });
-        });
-    }
-    
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'line',
-        data: { datasets: [{ data: [] }, { data: [] }] },
-        options: {
-            scales: {
-                x: {
-                    type: 'realtime',
-                    realtime: { onRefresh: onRefresh }
-                }
-            }
-        }
-    });
-</script>
 
 <!-- Main script app -->
 <script id="MainScript" src="../static/js css/app.js"></script>
