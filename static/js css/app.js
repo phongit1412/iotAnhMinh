@@ -772,7 +772,7 @@ function btnHomKia() {
     document.getElementById('tblDataPK3').style.display = "block";
     document.getElementById('tblDataPK1').style.display = "none";
     document.getElementById('tblDataPK2').style.display = "none";
-    document.getElementById('buttonhomkia').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")    
+    document.getElementById('buttonhomkia').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")
     document.getElementById('buttonhomnay').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
     document.getElementById('buttonhomqua').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
     //
@@ -785,7 +785,7 @@ function btnHomQua() {
     document.getElementById('tblDataPK2').style.display = "block";
     document.getElementById('tblDataPK1').style.display = "none";
     document.getElementById('tblDataPK3').style.display = "none";
-    document.getElementById('buttonhomqua').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")    
+    document.getElementById('buttonhomqua').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")
     document.getElementById('buttonhomnay').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
     document.getElementById('buttonhomkia').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
     //
@@ -797,14 +797,15 @@ function btnHomNay() {
     document.getElementById('tblDataPK1').style.display = "block";
     document.getElementById('tblDataPK2').style.display = "none";
     document.getElementById('tblDataPK3').style.display = "none";
-    document.getElementById('buttonhomnay').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")    
+    document.getElementById('buttonhomnay').setAttribute("class", "bg-blue-300 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed")
     document.getElementById('buttonhomkia').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
     document.getElementById('buttonhomqua').setAttribute("class", "bg-blue-300 font-bold py-2 px-4 rounded")
     //
-    document.getElementById('exportexcel1').style.display = "block";    
+    document.getElementById('exportexcel1').style.display = "block";
     document.getElementById('exportexcel2').style.display = "none";
     document.getElementById('exportexcel3').style.display = "none";
 }
+
 
 //////////////////////////////////////////////////////////////////////
 
@@ -1124,8 +1125,8 @@ function bieudoNHIETDO() {
                     type: 'realtime',
                     realtime: {
                         duration: 10000,
-                        refresh: 2800,
-                        delay: 2800,
+                        refresh: 2000,
+                        delay: 2000,
                         onRefresh: onRefresh
                     }
                 },
@@ -1214,8 +1215,8 @@ function bieudoDOAM() {
                     type: 'realtime',
                     realtime: {
                         duration: 10000,
-                        refresh: 2800,
-                        delay: 2800,
+                        refresh: 2000,
+                        delay: 2000,
                         onRefresh: onRefresh
                     }
                 },
@@ -1305,8 +1306,8 @@ function bieudoANHSANG() {
                     type: 'realtime',
                     realtime: {
                         duration: 10000,
-                        refresh: 2800,
-                        delay: 2800,
+                        refresh: 2000,
+                        delay: 2000,
                         onRefresh: onRefresh
                     }
                 },
@@ -1353,7 +1354,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 //BUTTON BIỂU ĐỒ CHARTJS
 function bieudo1() {
-    document.getElementById('myChart1').style.display = "block";
+    document.getElementById('myChart1').style.display = "block";   
     document.getElementById('myChart2').style.display = "none";
     document.getElementById('myChart3').style.display = "none";
 }
@@ -1379,32 +1380,33 @@ window.addEventListener('DOMContentLoaded', function () {
     bieudo3();
 })
 
+
 ///////////////////////////////////////////////////////////////////
 
-function exportTableToExcel(tableID, filename = ''){
+function exportTableToExcel(tableID, filename = '') {
     var downloadLink;
     var dataType = 'application/vnd.ms-excel';
     var tableSelect = document.getElementById(tableID);
     var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-    
-    filename = filename?filename+'.xls':'excel_data.xls';
+
+    filename = filename ? filename + '.xls' : 'excel_data.xls';
     downloadLink = document.createElement("a");
-    
+
     document.body.appendChild(downloadLink);
-    
-    if(navigator.msSaveOrOpenBlob){
+
+    if (navigator.msSaveOrOpenBlob) {
         var blob = new Blob(['\ufeff', tableHTML], {
             type: dataType
         });
         // thông báo tải xuống cho người dùng
-        navigator.msSaveOrOpenBlob( blob, filename);
-    }else{
+        navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
         // Create a link to the file
         downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-    
+
         // Setting tên file
         downloadLink.download = filename;
-        
+
         // bấm để download
         downloadLink.click();
     }
