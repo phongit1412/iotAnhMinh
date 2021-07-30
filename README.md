@@ -1,4 +1,4 @@
-# Đồ án tốt nghiệp "Nhà thông minh". 2021
+# Đồ án tốt nghiệp "Ứng dụng IoT trong hệ thống giám sát ngôi nhà thông minh theo thời gian". 2021
 
 Tham gia YSC-2021 với bài báo ORAL (International Young Scientists Conference in Computational Science 2021)
 
