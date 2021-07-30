@@ -1,6 +1,8 @@
 # Đồ án tốt nghiệp "Nhà thông minh". 2021
 
-Tham gia YSC-2021 bài báo ORAL
+Tham gia YSC-2021 với bài báo ORAL (International Young Scientists Conference in Computational Science 2021)
+
+Ứng dụng IoT trong hệ thống giám sát ngôi nhà thông minh theo thời gian
 
 - Bao gồm các mục sau:
   + Theo dỗi thông số cơ bản trong nhà như: Nhiệt độ, độ ẩm, độ sáng,...
