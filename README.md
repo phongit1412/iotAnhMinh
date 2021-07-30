@@ -113,7 +113,13 @@ Sau khi chạy xong nó hiện ra 2 link có domain random hơi xấu 1 cái htt
 Chạy này lệnh nì oke nhất:  
 Đầu tiên python app.py  
 Sau đó mở ngrok.exe: ngrok http -region ap -auth=”admin:minh” 8080  
--	Với -region ap là là khu vực singapo  
+-	Với -region ap là là khu vực singapo 
+Link: File báo cáo Word và Power Point và video Demo
+Video DEMO: https://drive.google.com/file/d/1IXzvUa4hyWPYNNHf9rgvx2ajZQX2YABo/view?usp=sharing
+Word: https://drive.google.com/file/d/1UvMm6nCow9Hp1eUovE4R3lN15Job7PX-/view?usp=sharing
+Power Point: https://drive.google.com/file/d/10gI8A7jI4E7HgnmYZkCB054xgGMi801u/view?usp=sharing
+                                                             
+Kết Quả: 9đ xuất sắc                                                             
 
 
 
