@@ -122,7 +122,9 @@ Sau đó mở ngrok.exe: ngrok http -region ap -auth=”admin:minh” 8080
                                                              
   +Video DEMO: https://drive.google.com/file/d/1IXzvUa4hyWPYNNHf9rgvx2ajZQX2YABo/view?usp=sharing
                                                              
-  +Word: https://drive.google.com/file/d/1UvMm6nCow9Hp1eUovE4R3lN15Job7PX-/view?usp=sharing
+  +Word YSC-2021: https://drive.google.com/file/d/1UvMm6nCow9Hp1eUovE4R3lN15Job7PX-/view?usp=sharing
+                                                             
+  +Word Đồ án: https://docs.google.com/document/d/1HHx8XtfbGecFb5-BXoVIqIAA9caOUL2i/edit?usp=sharing&ouid=105599176474562377374&rtpof=true&sd=true
                                                              
   +Power Point: https://drive.google.com/file/d/10gI8A7jI4E7HgnmYZkCB054xgGMi801u/view?usp=sharing
                                                              
