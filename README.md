@@ -120,7 +120,7 @@ Sau đó mở ngrok.exe: ngrok http -region ap -auth=”admin:minh” 8080
 -	Với -region ap là là khu vực singapo 
 - Link: File báo cáo Word và Power Point và video Demo:
                                                              
-  +Video DEMO: https://drive.google.com/file/d/1IXzvUa4hyWPYNNHf9rgvx2ajZQX2YABo/view?usp=sharing
+  +Video DEMO: https://drive.google.com/file/d/1QLr0r9EQI9JzKBiYBlNKwJwyHxUs6bWN/view?usp=sharing
                                                              
   +Word YSC-2021: https://drive.google.com/file/d/1UvMm6nCow9Hp1eUovE4R3lN15Job7PX-/view?usp=sharing
                                                              
